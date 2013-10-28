@@ -22,8 +22,10 @@ public class RegistrationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_registration);
 		tvName = (EditText) findViewById(R.id.tvName);
+		
 		Intent i = getIntent();
 		boolean forChange = i.getBooleanExtra("forChange", false);
+		
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		String name = pref.getString("name", "");
 		String phoneId = pref.getString("name", "");
