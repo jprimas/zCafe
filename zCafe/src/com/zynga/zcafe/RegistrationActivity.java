@@ -22,17 +22,20 @@ public class RegistrationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_registration);
 		tvName = (EditText) findViewById(R.id.tvName);
+		Intent i = getIntent();
+		boolean forChange = i.getBooleanExtra("forChange", false);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		//Skip the register view if you already registered
 		String name = pref.getString("name", "");
 		String phoneId = pref.getString("name", "");
-		if(!name.equals("") && !phoneId.equals("")){
-			Intent i = new Intent(this, MainActivity.class);
-			i.putExtra("name", name);
-			i.putExtra("phoneId", phoneId);
-			startActivity(i);
+		//Skip the register view if you already registered and user is not trying to edit it
+		if(!forChange && !name.equals("") && !phoneId.equals("")){
+			Intent newIntent = new Intent(this, MainActivity.class);
+			newIntent.putExtra("name", name);
+			newIntent.putExtra("phoneId", phoneId);
+			startActivity(newIntent);
 		}
+		
+		tvName.setText(name);
 	}
 
 	@Override

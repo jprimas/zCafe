@@ -1,9 +1,10 @@
 package com.zynga.zcafe;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends Activity {
 	
@@ -25,5 +26,19 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) { 
+	        case R.id.changeName:
+	        	Intent i = new Intent(this, RegistrationActivity.class);
+	        	i.putExtra("forChange", true);
+	            startActivity(i);
+	            break;
+	        default:
+	        	break;
+        }
+        return true;
+    }
 
 }
