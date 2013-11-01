@@ -14,8 +14,12 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.zynga.zcafeadmin.OrdersActivity"
-            android:label="@string/app_name" >
+            android:name="com.zynga.zcafeadmin.ReportActivity"
+            android:label="@string/title_activity_report" >
+        </activity>
+        <activity
+            android:name="com.zynga.zcafeadmin.AdminActivity"
+            android:label="@string/title_activity_admin" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
