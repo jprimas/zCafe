@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 
+import com.zynga.zcafeadmin.fragments.FrequencyFragment;
 import com.zynga.zcafeadmin.fragments.OrdersFragment;
 import com.zynga.zcafeadmin.fragments.ReportsFragment;
 
@@ -40,9 +41,14 @@ public class AdminActivity extends FragmentActivity implements TabListener {
 				.setTag("ReportsFragment")
 				//.setIcon(R.drawable.ic_coffee)
 				.setTabListener(this);
+		Tab tabFrequency = actionBar.newTab().setText("Frequency")
+				.setTag("FrequencyFragment")
+				//.setIcon(R.drawable.ic_coffee)
+				.setTabListener(this);
 		
 		actionBar.addTab(tabOrders);
 		actionBar.addTab(tabReports);
+		actionBar.addTab(tabFrequency);
 		actionBar.selectTab(tabOrders);
 	}
 
@@ -55,8 +61,10 @@ public class AdminActivity extends FragmentActivity implements TabListener {
 		android.support.v4.app.FragmentTransaction fts = manager.beginTransaction();
 		if(tab.getTag().equals("OrdersFragment")){
 			fts.replace(R.id.frame_container, new OrdersFragment());
-		}else{
+		}else if(tab.getTag().equals("ReportsFragment")){
 			fts.replace(R.id.frame_container, new ReportsFragment());
+		}else{
+			fts.replace(R.id.frame_container, new FrequencyFragment());
 		}
 		fts.commit();
 		
