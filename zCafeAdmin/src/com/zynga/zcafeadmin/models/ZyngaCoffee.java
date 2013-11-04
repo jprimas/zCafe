@@ -20,8 +20,8 @@ public class ZyngaCoffee {
 	private int count;
 	private String userName;
 	private ZyngaMenuItem item;
-	private Date createdAt;
-	private Date updatedAt;
+	private String createdAt;
+	private String updatedAt;
 	
 	public ZyngaCoffee(){
 		id = -1;
@@ -67,26 +67,10 @@ public class ZyngaCoffee {
 				coffee.setItem(ZyngaMenuItem.toZyngaMenuItemObject(obj.getJSONObject("menu")));
 			}
 			if(obj.has("createdAt")){
-				String d =obj.getString("createdAt");
-				DateFormat df = new SimpleDateFormat(); 
-			    Date date = null;
-			    try {
-			        date = df.parse(d);
-			    } catch (ParseException e) {
-			        e.printStackTrace();
-			    }
-			    coffee.setCreatedAt(date);
+			    coffee.setCreatedAt(obj.getString("createdAt"));
 			}
 			if(obj.has("updatedAt")){
-				String d =obj.getString("updatedAt");
-				DateFormat df = new SimpleDateFormat(); 
-			    Date date = null;
-			    try {
-			        date = df.parse(d);
-			    } catch (ParseException e) {
-			        e.printStackTrace();
-			    }
-			    coffee.setUpdatedAt(date);
+			    coffee.setUpdatedAt(obj.getString("updatedAt"));
 			}
 			return coffee;
 			
@@ -97,7 +81,7 @@ public class ZyngaCoffee {
 		return null;
 	}
 	
-	public static ZyngaCoffee[] toZyngaCoffeeObjectArray(JSONArray array){
+	public static ArrayList<ZyngaCoffee> toZyngaCoffeeObjectArray(JSONArray array){
 		ArrayList<ZyngaCoffee> coffeeArray = new ArrayList<ZyngaCoffee>();
 		for (int i = 0; i < array.length(); i++) {
 			JSONObject obj = null;
@@ -109,7 +93,7 @@ public class ZyngaCoffee {
 			ZyngaCoffee coffee = toZyngaCoffeeObject(obj);
 			coffeeArray.add(coffee);
 		}
-		return coffeeArray.toArray(new ZyngaCoffee[coffeeArray.size()]);
+		return coffeeArray;
 	}
 
 	public int getId() {
@@ -176,19 +160,19 @@ public class ZyngaCoffee {
 		this.item = item;
 	}
 
-	public Date getCreatedAt() {
+	public String getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(String createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public String getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(String updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 	

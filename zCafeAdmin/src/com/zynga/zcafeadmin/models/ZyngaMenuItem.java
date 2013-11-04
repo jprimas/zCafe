@@ -41,10 +41,10 @@ public class ZyngaMenuItem {
 				item.setImageName(obj.getString("imageName"));
 			}
 			if(obj.has("thumbImageUrl")){
-				item.setTitle(obj.getString("thumbImageUrl"));
+				item.setThumbImageUrl(obj.getString("thumbImageUrl"));
 			}
 			if(obj.has("imageUrl")){
-				item.setTitle(obj.getString("imageUrl"));
+				item.setImageUrl(obj.getString("imageUrl"));
 			}
 			return item;
 			
