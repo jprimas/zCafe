@@ -1,5 +1,9 @@
 package com.zynga.zcafeadmin.fragments;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,16 +17,15 @@ import com.androidplot.pie.Segment;
 import com.androidplot.pie.SegmentFormatter;
 import com.androidplot.ui.SizeLayoutType;
 import com.androidplot.ui.SizeMetrics;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.zynga.zcafeadmin.R;
+import com.zynga.zcafeadmin.models.ReportData;
+import com.zynga.zcafeadmin.models.ZyngaCoffee;
 
 public class ReportsFragment extends Fragment {
 	
 	 private PieChart pie;
-	 private Segment s1;
-	 private Segment s2;
-	 private Segment s3;
-	 private Segment s4;
-	 private Segment s5;
 	 private TextView tvTotal;
 	
 	@Override
@@ -34,15 +37,7 @@ public class ReportsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		int dripCoffeeCount = 3;
-		int expressoCount = 4;
-		int cappaccinoCount = 10;
-		int americanoCount = 1;
-		int latteCount = 2;
-		
-		int totalSold = 10;
 		tvTotal = (TextView) getActivity().findViewById(R.id.tvTotal);
-		tvTotal.setText(String.valueOf(totalSold));
         
         pie = (PieChart) getActivity().findViewById(R.id.pieChart);
         pie.getBackgroundPaint().setAlpha(0);
@@ -52,7 +47,47 @@ public class ReportsFragment extends Fragment {
         pie.getTitleWidget().getLabelPaint().setTextSize(20);
         pie.getPieWidget().setHeight(40);
         
-        if(dripCoffeeCount > 0){
+        getData();
+        
+	}
+	
+	private void getData(){
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.get("https://yipbb.corp.zynga.com/zcafe-api/admin/dailyReport", new
+		    AsyncHttpResponseHandler() {
+		        @Override
+		        public void onSuccess(String jsonString) {
+		            try {
+		            	JSONObject jsonObj = new JSONObject(jsonString);
+						ReportData data = ReportData.parseReportData(jsonObj);
+						System.out.println("SUCCESS");
+						updateDate(data);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+		        }
+		    }
+		);
+	}
+	
+	public void updateDate(ReportData data){
+		int totalSold = data.getTotalCount();
+		tvTotal.setText(String.valueOf(totalSold));
+		
+		String[] names = data.getNames();
+		int[] counts = data.getCounts();
+		System.out.println(names[0] + "     " + counts[0]);
+		for(int i = 0; i < names.length; i++){
+			Segment s = new Segment(names[i], counts[i]);
+			pie.addSeries(s, new SegmentFormatter(Color.rgb((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255)), Color.BLACK,Color.BLACK, Color.BLACK));
+		}
+		pie.redraw();
+	}
+	
+}
+
+/*
+ * if(dripCoffeeCount > 0){
         	s1 = new Segment("Drip Coffee", dripCoffeeCount);
         	pie.addSeries(s1, new SegmentFormatter(Color.rgb(200, 150, 150), Color.BLACK,Color.BLACK, Color.BLACK));
         }
@@ -76,13 +111,4 @@ public class ReportsFragment extends Fragment {
             s5 = new Segment("Latte", latteCount);
             pie.addSeries(s5, new SegmentFormatter(Color.rgb(215, 170, 90), Color.BLACK, Color.BLACK, Color.BLACK));
         }
- 
-        
-        
-        
-        
-
-        
-	}
-	
-}
+        */

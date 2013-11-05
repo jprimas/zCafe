@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.urbanairship.push.PushManager;
 import com.zynga.zcafeadmin.OrdersAdapter;
 import com.zynga.zcafeadmin.R;
 import com.zynga.zcafeadmin.models.ZyngaCoffee;
@@ -44,6 +45,9 @@ public class OrdersFragment extends Fragment {
 		
 		updateOrders();
 		createUpdateThread();
+		
+		String apid = PushManager.shared().getAPID();
+		System.out.println(">>>>>>>>>>" + apid);
 		
 	}
 	

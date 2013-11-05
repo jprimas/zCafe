@@ -1,25 +1,57 @@
 package com.zynga.zcafeadmin;
 
+import java.io.UnsupportedEncodingException;
+
+import org.apache.http.entity.StringEntity;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
+import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.urbanairship.UAirship;
+import com.urbanairship.push.PushManager;
 import com.zynga.zcafeadmin.fragments.FrequencyFragment;
 import com.zynga.zcafeadmin.fragments.OrdersFragment;
 import com.zynga.zcafeadmin.fragments.ReportsFragment;
 
 public class AdminActivity extends FragmentActivity implements TabListener {
-
+	
+	IntentFilter apidUpdateFilter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_admin);
 		setupNavigationTabs();
+		//createUpdateThread();
+		apidUpdateFilter = new IntentFilter();
+        apidUpdateFilter.addAction(UAirship.getPackageName()+IntentReceiver.APID_UPDATED_ACTION_SUFFIX);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		registerReceiver(apidUpdateReceiver, apidUpdateFilter);
+		
 	}
 
 	@Override
@@ -28,6 +60,16 @@ public class AdminActivity extends FragmentActivity implements TabListener {
 		getMenuInflater().inflate(R.menu.admin, menu);
 		return true;
 	}
+	
+	private BroadcastReceiver apidUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+        	String apid = PushManager.shared().getAPID();
+        	Toast toast = Toast.makeText(context, apid, Toast.LENGTH_LONG);
+        	toast.show();
+        	registerApp(apid);
+        }
+    };
 	
 	public void setupNavigationTabs(){
 		ActionBar actionBar = getActionBar();
@@ -50,6 +92,48 @@ public class AdminActivity extends FragmentActivity implements TabListener {
 		actionBar.addTab(tabReports);
 		actionBar.addTab(tabFrequency);
 		actionBar.selectTab(tabOrders);
+	}
+
+	public void registerApp(String apid){
+		final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean hasRegistered = pref.getBoolean("hasRegistered", false);
+		if(!hasRegistered){
+	    	final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+			String phoneId = tm.getDeviceId();
+			if(phoneId == null){
+				//I try to make it so that it will never be null. Still not 100% though
+				phoneId = tm.getSimSerialNumber();
+			}
+	    	System.out.println(phoneId);
+	    	System.out.println(apid);
+			JSONObject jsonParams = new JSONObject();
+	    	StringEntity entity = null;
+	        try {
+				jsonParams.put("name", "admin");
+				jsonParams.put("udid", phoneId);
+				jsonParams.put("uaid", apid);
+				jsonParams.put("device", "android");
+				System.out.println(jsonParams.toString());
+				entity = new StringEntity(jsonParams.toString());
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+	    	AsyncHttpClient client = new AsyncHttpClient();
+			client.post(this,
+				"https://yipbb.corp.zynga.com/zcafe-api/register",
+				entity,
+				"application/json",
+			    new AsyncHttpResponseHandler() {
+				@Override
+				public void onSuccess(String jsonString) {
+					Editor edit = pref.edit();
+					edit.putBoolean("hasRegistered", true);
+					edit.commit();
+				}
+			});
+		}
 	}
 
 	@Override
