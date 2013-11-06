@@ -51,6 +51,12 @@ public class OrdersFragment extends Fragment {
 	}
 	
 	@Override
+	public void onResume() {
+		super.onResume();
+		updateOrders();
+	}
+	
+	@Override
 	public void onPause() {
 		super.onPause();
 		viewActive = false;
@@ -97,7 +103,7 @@ public class OrdersFragment extends Fragment {
 	                            System.out.println("Updated");
 	                        }
 	                    });
-	                    Thread.sleep(100000);
+	                    Thread.sleep(5000);
 	                } catch (Exception e) {
 	                    System.err.println("Error: Update Thread failed.");
 	                }
