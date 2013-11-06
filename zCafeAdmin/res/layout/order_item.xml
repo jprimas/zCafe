@@ -5,24 +5,39 @@
     android:orientation="horizontal" >
     
     <RelativeLayout
+        android:id="@+id/rlItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:background="@drawable/back">
         <TextView 
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
+        	android:textSize="20sp"
         	 />
 
         <TextView
             android:id="@+id/tvBody"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvName" />
+            android:layout_below="@+id/tvName"
+            android:layout_marginLeft="15dp" />
+        
+        <TextView
+            android:id="@+id/tvCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvBody"
+            android:layout_marginLeft="15dp" />
 
         <Button
             android:id="@+id/btComplete"
@@ -31,6 +46,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
+            android:textSize="13dp"
+            android:textColor="@color/red"
+            android:background="@drawable/states_complete_button"
             android:text="Complete" />
 
     </RelativeLayout>

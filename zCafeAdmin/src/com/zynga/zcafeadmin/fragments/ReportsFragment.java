@@ -37,6 +37,8 @@ public class ReportsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
+		getActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+		 
 		tvTotal = (TextView) getActivity().findViewById(R.id.tvTotal);
         
         pie = (PieChart) getActivity().findViewById(R.id.pieChart);
@@ -76,10 +78,12 @@ public class ReportsFragment extends Fragment {
 		
 		String[] names = data.getNames();
 		int[] counts = data.getCounts();
-		System.out.println(names[0] + "     " + counts[0]);
 		for(int i = 0; i < names.length; i++){
 			Segment s = new Segment(names[i], counts[i]);
 			pie.addSeries(s, new SegmentFormatter(Color.rgb((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255)), Color.BLACK,Color.BLACK, Color.BLACK));
+		}
+		if(names.length > 1 && getActivity().findViewById(R.id.progressBar).getVisibility() == View.VISIBLE){
+			getActivity().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
 		}
 		pie.redraw();
 	}

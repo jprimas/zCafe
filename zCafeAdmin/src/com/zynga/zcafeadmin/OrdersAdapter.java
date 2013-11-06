@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +41,12 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 		coffee = getItem(position);
 		TextView tvName = (TextView) view.findViewById(R.id.tvName);
 		TextView tvBody = (TextView) view.findViewById(R.id.tvBody);
+		TextView tvCount = (TextView) view.findViewById(R.id.tvCount);
 		Button btComplete = (Button) view.findViewById(R.id.btComplete);
 		
-		tvName.setText(coffee.getItem().getTitle());
-		tvBody.setText(coffee.getUserName());
+		tvName.setText(Html.fromHtml(coffee.getItem().getTitle() + "<small>&nbsp;&nbsp;<small>for</small>&nbsp;&nbsp;</small>" + coffee.getUserName()));
+		tvBody.setText("Notes: " + coffee.getNotes());
+		tvCount.setText("Count: " + coffee.getCount());
 		
 		final OrdersAdapter a = this;
 		final int pos = position;
@@ -61,14 +64,14 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 				}
 		    	AsyncHttpClient client = new AsyncHttpClient();
 				client.put(context,
-					"https://yipbb.corp.zynga.com/zcafe-api/admin/completeOrder",
+					"https://yipbb.corp.zynga.com/zcafe-api/admin/completeOrder.json",
 					entity,
 					"application/json",
 					new AsyncHttpResponseHandler() {
 				        
 						@Override
 						public void onSuccess(String arg0) {
-							System.out.println("removing");
+							System.out.println("removing!!");
 				            a.remove(a.getItem(pos));
 						};
 				        

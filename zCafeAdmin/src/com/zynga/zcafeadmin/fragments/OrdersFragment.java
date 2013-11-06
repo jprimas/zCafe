@@ -36,6 +36,9 @@ public class OrdersFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		getActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.tvLoading).setVisibility(View.VISIBLE);
+		
 		pendingCoffees = new ArrayList<ZyngaCoffee>();
 		lvOrders = (ListView) getActivity().findViewById(R.id.lvOrders);
 		adapter = new OrdersAdapter(getActivity(), pendingCoffees);
@@ -45,15 +48,11 @@ public class OrdersFragment extends Fragment {
 		
 		updateOrders();
 		createUpdateThread();
-		
-		String apid = PushManager.shared().getAPID();
-		System.out.println(">>>>>>>>>>" + apid);
-		
 	}
 	
 	@Override
-	public void onStop() {
-		super.onStop();
+	public void onPause() {
+		super.onPause();
 		viewActive = false;
 	}
 	
@@ -67,6 +66,12 @@ public class OrdersFragment extends Fragment {
 		            	JSONArray jsonObj = new JSONArray(jsonString);
 						pendingCoffees = ZyngaCoffee.toZyngaCoffeeObjectArray(jsonObj);
 						adapter.clear();
+						if(pendingCoffees.size() > 0
+								&& getActivity().findViewById(R.id.progressBar).getVisibility() == View.VISIBLE
+								&& getActivity().findViewById(R.id.tvLoading).getVisibility() == View.VISIBLE){
+							getActivity().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+							getActivity().findViewById(R.id.tvLoading).setVisibility(View.INVISIBLE);
+						}
 						adapter.addAll(pendingCoffees);
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -83,7 +88,6 @@ public class OrdersFragment extends Fragment {
 	        	viewActive = true;
 	            while (viewActive) {
 	                try {
-	                    Thread.sleep(100000);
 	                    mHandler.post(new Runnable() {
 
 	                        @Override
@@ -92,6 +96,7 @@ public class OrdersFragment extends Fragment {
 	                            System.out.println("Updated");
 	                        }
 	                    });
+	                    Thread.sleep(100000);
 	                } catch (Exception e) {
 	                    System.err.println("Error: Update Thread failed.");
 	                }

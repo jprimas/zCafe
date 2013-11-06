@@ -6,6 +6,7 @@ import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -16,11 +17,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings.Secure;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.widget.Toast;
 
@@ -41,7 +44,7 @@ public class AdminActivity extends FragmentActivity implements TabListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_admin);
 		setupNavigationTabs();
-		//createUpdateThread();
+		
 		apidUpdateFilter = new IntentFilter();
         apidUpdateFilter.addAction(UAirship.getPackageName()+IntentReceiver.APID_UPDATED_ACTION_SUFFIX);
 	}
@@ -49,9 +52,7 @@ public class AdminActivity extends FragmentActivity implements TabListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
 		registerReceiver(apidUpdateReceiver, apidUpdateFilter);
-		
 	}
 
 	@Override
@@ -71,8 +72,11 @@ public class AdminActivity extends FragmentActivity implements TabListener {
         }
     };
 	
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void setupNavigationTabs(){
 		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+		
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(true);
 		Tab tabOrders = actionBar.newTab().setText("Orders")
@@ -98,14 +102,7 @@ public class AdminActivity extends FragmentActivity implements TabListener {
 		final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean hasRegistered = pref.getBoolean("hasRegistered", false);
 		if(!hasRegistered){
-	    	final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-			String phoneId = tm.getDeviceId();
-			if(phoneId == null){
-				//I try to make it so that it will never be null. Still not 100% though
-				phoneId = tm.getSimSerialNumber();
-			}
-	    	System.out.println(phoneId);
-	    	System.out.println(apid);
+			String phoneId =  Secure.getString(getBaseContext().getContentResolver(), Secure.ANDROID_ID);
 			JSONObject jsonParams = new JSONObject();
 	    	StringEntity entity = null;
 	        try {

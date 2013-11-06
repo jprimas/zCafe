@@ -3,6 +3,9 @@ package com.zynga.zcafeadmin.fragments;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,11 +23,17 @@ import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.XYStepMode;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.zynga.zcafeadmin.R;
+import com.zynga.zcafeadmin.models.ZyngaCoffee;
 
 public class FrequencyFragment extends Fragment {
 	
 	private XYPlot freqeuncyPlot;
+	private Number[] coffees1;
+	private Number[] coffees2;
+	private Number[] coffees3;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -66,24 +75,43 @@ public class FrequencyFragment extends Fragment {
         freqeuncyPlot.getGraphWidget().getDomainGridLinePaint().setColor(Color.rgb(150,150,150));
         freqeuncyPlot.getGraphWidget().getDomainOriginLinePaint().setColor(Color.rgb(150,150,150));
         freqeuncyPlot.getGraphWidget().getRangeOriginLinePaint().setColor(Color.rgb(150,150,150));
-
-        Number[] coffees1 = {2, 15, 30, 33,  22, 16,   0,   0,    0,   0,   5,  17,  41,  33,  24,   2,  0,   0,   0};
-        Number[] coffees2 = {0, 20, 35, 50,  32, 16,   0,   0,    0,   0,   1,  3,  18,  19,  18,   6,  0,   0,   0};
-        Number[] coffees3 = {1, 5,  10, 30,  15, 3,    0,   0,    0,   0,   15,  16,  18,  3,  3,   1,  0,   0,   0};
-        //Number[] coffees4 = {7, 1, 27, 28,   29, 27,   0,   0,    0,   0,   0,  7,  23,  12,  5,   21,  0,   0,   0};
-        //Number[] coffees5 = {0, 2, 15, 8,    19, 21,   0,   0,    0,   0,   0,  30,  45,  10,  1,   1,  0,   0,   0};
-        //Number[] xValues ={8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17};
+        
+        getData();
+        
+        coffees1 = new Number[]{2, 15, 30, 33,  22, 16,   0,   0,    0,   0,   5,  17,  41,  33,  24,   2,  0,   0,   0};
+        coffees2 = new Number[]{0, 20, 35, 50,  32, 16,   0,   0,    0,   0,   1,  3,  18,  19,  18,   6,  0,   0,   0};
+        coffees3 = new Number[]{1, 5,  10, 30,  15, 3,    0,   0,    0,   0,   15,  16,  18,  3,  3,   1,  0,   0,   0};
         
         addLine(coffees1, Color.rgb(255, 180, 180), Color.rgb(255, 200, 200));
         addLine(coffees2, Color.rgb(255, 100, 100), Color.rgb(255, 120, 120));
         addLine(coffees3, Color.rgb(255, 0, 0), Color.rgb(255, 0, 0));
-        //addLine(coffees4, Color.rgb(150, 150, 150), Color.BLACK);
-        //addLine(coffees5, Color.rgb(200, 200, 200), Color.BLACK);
 
         
         
 	}
 	
+	private void getData() {
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.get("https://yipbb.corp.zynga.com/zcafe-api/admin/frequency", new
+		    AsyncHttpResponseHandler() {
+		        @Override
+		        public void onSuccess(String jsonString) {
+		            try {
+		            	JSONArray jsonArr = new JSONArray(jsonString);
+						parseArray(jsonArr);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+		        }
+		    }
+		);
+		
+	}
+	
+	private void parseArray(JSONArray arr){
+		
+	}
+
 	private void addLine(Number[] yValues, int lineColor, int pointColor){
 		
 		Number[] xValues =  {8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17};
