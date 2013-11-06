@@ -63,7 +63,6 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
     ImageLoader.getInstance().displayImage(item.getThumbImageUrl(), holder.ivPhoto);
     holder.tvTitle.setText(item.getTitle());
     holder.tvDescription.setText(item.getDescription());
-    holder.bOrder.setText(R.string.order);
     holder.bOrder.setOnClickListener(new View.OnClickListener() {
 
       @Override

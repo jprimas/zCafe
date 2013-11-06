@@ -76,7 +76,7 @@ public class FavoriteListFragment extends BaseListFragment {
     bus.register(this);
     String favoriteUrl = app.getResources().getString(R.string.api_url)
         + app.getResources().getString(R.string.menu_get_url) + "/" + app.getProfile().getUdId();
-    Log.i("FAVEVENT-URL", favoriteUrl);
+    Log.i("FAVEVENT-URL1", favoriteUrl);
     getFavorite(favoriteUrl);
   }
 

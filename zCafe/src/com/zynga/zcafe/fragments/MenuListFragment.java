@@ -82,7 +82,7 @@ public class MenuListFragment extends BaseListFragment {
   @Override
   public void onPause() {
     super.onPause();
-    Log.i(this.toString(), "PAUSE");
+    Log.i(this.toString(), "PAUSE1");
     bus.unregister(this);
   }
 
@@ -93,8 +93,8 @@ public class MenuListFragment extends BaseListFragment {
 
   @Subscribe
   public void onMenuUpdated(MenuEvent event) {
-    Log.i("MENUEVENT-CODE", String.valueOf(event.getStatus()));
-    Log.i("MENUEVENT-RESPONSE", event.getResponse());
+    Log.i("MENUEVENT1-CODE", String.valueOf(event.getStatus()));
+    Log.i("MENUEVENT1-RESPONS1E", event.getResponse());
     adapter.clear();
     JSONArray array = new JSONArray();
     try {
