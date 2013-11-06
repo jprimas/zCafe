@@ -1,6 +1,7 @@
 package com.zynga.zcafeadmin;
 
-import java.io.IOException;
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -16,15 +17,21 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.zynga.zcafeadmin.models.ZyngaCoffee;
 
 public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 	
 	private Context context;
-	ZyngaCoffee coffee;
+	private ViewGroup parent;
+	private ZyngaCoffee coffee;
+	private String notes;
+	private View currentView;
 	
 	public OrdersAdapter(Context context, List<ZyngaCoffee> orders){
 		super(context, 0, orders);
@@ -34,28 +41,31 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
 		View view = convertView;
+		this.parent = parent;
 		if(view == null){
 			LayoutInflater inflator = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflator.inflate(R.layout.order_item, null);
 		}
 		coffee = getItem(position);
+		notes = coffee.getNotes();
 		TextView tvName = (TextView) view.findViewById(R.id.tvName);
 		TextView tvBody = (TextView) view.findViewById(R.id.tvBody);
 		TextView tvCount = (TextView) view.findViewById(R.id.tvCount);
 		Button btComplete = (Button) view.findViewById(R.id.btComplete);
+		btComplete.setTag(position);
 		
 		tvName.setText(Html.fromHtml(coffee.getItem().getTitle() + "<small>&nbsp;&nbsp;<small>for</small>&nbsp;&nbsp;</small>" + coffee.getUserName()));
 		tvBody.setText("Notes: " + coffee.getNotes());
 		tvCount.setText("Count: " + coffee.getCount());
 		
-		final OrdersAdapter a = this;
-		final int pos = position;
+		final View itemView = view;
 		btComplete.setOnClickListener(new Button.OnClickListener() {
-		    public void onClick(View v) {
+		    public void onClick(final View v) {
+		    	final Integer index = (Integer) v.getTag();
 		    	JSONObject jsonParams = new JSONObject();
 		    	StringEntity entity = null;
 		        try {
-					jsonParams.put("orderId", coffee.getId());
+					jsonParams.put("orderId", getItem(index).getId());
 					entity = new StringEntity(jsonParams.toString());
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
@@ -71,8 +81,8 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 				        
 						@Override
 						public void onSuccess(String arg0) {
-							System.out.println("removing!!");
-				            a.remove(a.getItem(pos));
+					    	currentView = itemView;
+					    	animateDeletion(index);
 						};
 				        
 				        @Override
@@ -88,6 +98,24 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 		});
 		
 		return view;
+	}
+	
+	private void animateDeletion(final int index){
+		//FragmentViewHome homeFragment = (FragmentViewHome) .getSupportFragmentManager().findFragmentByTag("homelist");
+		System.out.println(index);
+		final float x = currentView.getX();
+		animate(currentView).alpha(.001f).setDuration(700).
+		//animate(currentView).translationX(500).setDuration(700).
+		setListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				System.out.println(getItem(index).getNotes());
+				remove(getItem(index));
+				currentView.setAlpha(1);
+				//currentView.setX(x);
+			};
+		});
+
 	}
 
 }

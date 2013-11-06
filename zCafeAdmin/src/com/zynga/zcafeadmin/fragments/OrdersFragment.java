@@ -56,7 +56,7 @@ public class OrdersFragment extends Fragment {
 		viewActive = false;
 	}
 	
-	private void updateOrders(){
+	public void updateOrders(){
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.get("https://yipbb.corp.zynga.com/zcafe-api/admin/orders/Pending", new
 		    AsyncHttpResponseHandler() {
@@ -67,6 +67,7 @@ public class OrdersFragment extends Fragment {
 						pendingCoffees = ZyngaCoffee.toZyngaCoffeeObjectArray(jsonObj);
 						adapter.clear();
 						if(pendingCoffees.size() > 0
+								&& getActivity() != null
 								&& getActivity().findViewById(R.id.progressBar).getVisibility() == View.VISIBLE
 								&& getActivity().findViewById(R.id.tvLoading).getVisibility() == View.VISIBLE){
 							getActivity().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);

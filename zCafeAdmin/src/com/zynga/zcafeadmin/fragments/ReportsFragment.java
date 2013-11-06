@@ -1,12 +1,14 @@
 package com.zynga.zcafeadmin.fragments;
 
-import org.json.JSONArray;
+import java.util.LinkedList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +23,12 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.zynga.zcafeadmin.R;
 import com.zynga.zcafeadmin.models.ReportData;
-import com.zynga.zcafeadmin.models.ZyngaCoffee;
 
 public class ReportsFragment extends Fragment {
 	
 	 private PieChart pie;
 	 private TextView tvTotal;
+	 private LinkedList<Integer> colors;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class ReportsFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		initColorsQueue();
 		
 		getActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
 		 
@@ -79,8 +82,15 @@ public class ReportsFragment extends Fragment {
 		String[] names = data.getNames();
 		int[] counts = data.getCounts();
 		for(int i = 0; i < names.length; i++){
-			Segment s = new Segment(names[i], counts[i]);
-			pie.addSeries(s, new SegmentFormatter(Color.rgb((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255)), Color.BLACK,Color.BLACK, Color.BLACK));
+			Segment s = new Segment(names[i].toString(), counts[i]);
+			//(int)(Math.random()*255)
+			int one = colors.poll();
+			int two = colors.poll();
+			int three = colors.poll();
+			colors.add(one);
+			colors.add(two);
+			colors.add(three);
+			pie.addSeries(s, new SegmentFormatter(Color.rgb(one, two, three), Color.BLACK,Color.BLACK, Color.BLACK));
 		}
 		if(names.length > 1 && getActivity().findViewById(R.id.progressBar).getVisibility() == View.VISIBLE){
 			getActivity().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
@@ -88,7 +98,39 @@ public class ReportsFragment extends Fragment {
 		pie.redraw();
 	}
 	
+	private void initColorsQueue(){
+		colors = new LinkedList<Integer>();
+		colors.add(200);
+		colors.add(150);
+		colors.add(150);
+		
+		colors.add(150);
+		colors.add(200);
+		colors.add(150);
+		
+		colors.add(150);
+		colors.add(150);
+		colors.add(200);
+		
+		colors.add(200);
+		colors.add(200);
+		colors.add(100);
+		
+		colors.add(100);
+		colors.add(200);
+		colors.add(200);
+		
+		colors.add(200);
+		colors.add(100);
+		colors.add(200);
+		
+		colors.add(200);
+		colors.add(200);
+		colors.add(200);
+	}
+
 }
+
 
 /*
  * if(dripCoffeeCount > 0){
