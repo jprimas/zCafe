@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/rlMenuItem"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent" >
+	android:layout_height="wrap_content"
+	android:layout_marginBottom="5dp"
+	android:layout_marginLeft="5dp"
+	android:layout_marginRight="5dp"
+	android:layout_marginTop="5dp"
+	android:background="@drawable/background"
+	android:paddingBottom="10dp"
+	android:paddingLeft="10dp"
+	android:paddingRight="10dp"
+	android:paddingTop="5dp" >
 
 	<ImageView
 		android:id="@+id/ivOrderFormPhoto"
-		android:layout_width="50dp"
-		android:layout_height="50dp"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
 		android:layout_marginBottom="20dp"
 		android:layout_marginRight="10dp"
-		android:contentDescription="@string/content_description" />
+		android:background="@drawable/background"
+		android:contentDescription="@string/content_description"
+		android:scaleType="centerCrop" />
 
 	<TextView
 		android:id="@+id/tvOrderFormTitle"
@@ -35,7 +47,8 @@
 		android:layout_height="30dp"
 		android:layout_below="@+id/ivOrderFormPhoto"
 		android:layout_marginTop="20dp"
-		android:lines="3" >
+		android:lines="3"
+		android:textSize="14sp" >
 
 		<requestFocus />
 	</EditText>
@@ -52,12 +65,12 @@
 
 	<Button
 		android:id="@+id/bOrderFormOrderButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:layout_width="100dp"
+		android:layout_height="40dp"
 		android:layout_below="@+id/tvOrderFormNoteLabel"
 		android:layout_centerHorizontal="true"
 		android:layout_marginTop="10dp"
-		android:text="Order"
+		android:background="@drawable/confirm_button"
 		android:textColor="#000000" />
 
 </RelativeLayout>

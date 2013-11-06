@@ -73,6 +73,7 @@ public class StatusListFragment extends BaseListFragment {
     super.onResume();
     Log.i(this.toString(), "RESUME");
     bus.register(this);
+    bus.register(adapter);
     String orderStatusUrl = app.getResources().getString(R.string.api_url)
         + app.getResources().getString(R.string.order_status_get_url) + "/"
         + app.getProfile().getUdId();
@@ -84,6 +85,7 @@ public class StatusListFragment extends BaseListFragment {
     super.onPause();
     Log.i(this.toString(), "PAUSE");
     bus.unregister(this);
+    bus.unregister(adapter);
   }
 
   protected void getOrderStatus(String url) {
@@ -102,7 +104,7 @@ public class StatusListFragment extends BaseListFragment {
         e.printStackTrace();
       }
       ArrayList<StatusItem> items = StatusItem.fromJson(jsonArray);
-      adapter.addAll(items);
+      adapter.push(items);
       adapter.notifyDataSetChanged();
     }
 

@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -45,7 +47,8 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
   FragmentManager fragmentManager;
   Fragment fragment;
 
-  int currentCancelPosition;
+  static int currentCancelPosition;
+  static View currentView;
 
   public StatusAdapter(Fragment fragment, FragmentManager fragmentManager, Context context,
       ArrayList<StatusItem> items) {
@@ -58,11 +61,15 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
 
   public void push(ArrayList<StatusItem> items) {
     clear();
-    addAll(items);
+    for (StatusItem item : items) {
+      if (!item.getStatus().equals("Cancelled")) {
+        add(item);
+      }
+    }
   }
 
   @Override
-  public View getView(final int position, View convertView, ViewGroup parent) {
+  public View getView(final int position, final View convertView, final ViewGroup parent) {
     ViewHolder holder;
     View view = convertView;
     if (view == null) {
@@ -98,11 +105,12 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
 
         @Override
         public void onClick(View view) {
-          Log.i("CANCEL", "ORDER");
+          Log.i("CANCEL1", "ORDER");
           String url = view.getResources().getString(R.string.api_url)
               + view.getResources().getString(R.string.cancel_order_url);
           cancelOrder(url, item);
           currentCancelPosition = position;
+          currentView = convertView;
         }
 
       });
@@ -148,15 +156,42 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
 
   @Subscribe
   public void onCancelOrderEvent(CancelOrderEvent event) {
+    Log.i("ONCANCELEVENT", "TRUE");
     if (event.getStatus() == 200) {
-      Log.i("ONCANCELEVENT", "TRUE");
-      StatusItem item = getItem(currentCancelPosition);
-      remove(item);
-      notifyDataSetChanged();
+      Log.i("ONCANCELEVENT-200", "TRUE");
+
+      runItemRemovalAnimation();
+
       CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
       String msg = app.getContext().getResources().getString(R.string.order_cancel_success);
       Toast.makeText(app.getContext(), msg, Toast.LENGTH_LONG).show();
     }
+  }
+
+  private void runItemRemovalAnimation() {
+    Animation animation = new AlphaAnimation(1.0f, 0.0f);
+    animation.setDuration(2000);
+    animation.setAnimationListener(new Animation.AnimationListener() {
+
+      @Override
+      public void onAnimationEnd(Animation animation) {
+        StatusItem item = getItem(currentCancelPosition);
+        remove(item);
+        notifyDataSetChanged();
+      }
+
+      @Override
+      public void onAnimationRepeat(Animation animation) {
+
+      }
+
+      @Override
+      public void onAnimationStart(Animation animation) {
+
+      }
+    });
+
+    currentView.startAnimation(animation);
   }
 
 }

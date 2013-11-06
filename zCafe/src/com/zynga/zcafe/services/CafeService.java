@@ -42,7 +42,6 @@ public class CafeService {
 
       @Override
       public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        // tlee: this doesn't get called at all on a successful post.
         String response = new String(responseBody);
         Log.i("SUCCESS", response);
         RegistrationEvent event = new RegistrationEvent(response, 0);
@@ -54,7 +53,7 @@ public class CafeService {
 
       @Override
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        RegistrationEvent event = new RegistrationEvent(new String(responseBody), 1);
+        RegistrationEvent event = new RegistrationEvent(error.getMessage(), 1);
         bus.post(event);
         CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
         String msg = app.getContext().getResources().getString(R.string.registration_failure);
@@ -70,7 +69,7 @@ public class CafeService {
     JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
       @Override
       public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        Log.i("GET MENU", "SUCCESS");
+        Log.i("GET MENU1", "SUCCESS");
         MenuEvent event = new MenuEvent(statusCode, new String(responseBody));
         bus.post(event);
       }
@@ -80,7 +79,7 @@ public class CafeService {
         String response = new String(responseBody);
         CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
         Toast.makeText(app.getContext(), response, Toast.LENGTH_LONG).show();
-        Log.d("GET MENU ERROR", error.getMessage());
+        Log.d("GET MENU1 ERROR", error.getMessage());
       }
     };
     Log.i("GET MENU LIST URL", url);
