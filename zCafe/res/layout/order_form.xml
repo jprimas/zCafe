@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
+
+	<ImageView
+		android:id="@+id/ivOrderFormPhoto"
+		android:layout_width="50dp"
+		android:layout_height="50dp"
+		android:layout_marginBottom="20dp"
+		android:layout_marginRight="10dp"
+		android:contentDescription="@string/content_description" />
+
+	<TextView
+		android:id="@+id/tvOrderFormTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignTop="@id/ivOrderFormPhoto"
+		android:layout_toRightOf="@id/ivOrderFormPhoto"
+		android:textColor="#000000"
+		android:textSize="20sp" />
+
+	<TextView
+		android:id="@+id/tvOrderFormDescription"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/tvOrderFormTitle"
+		android:layout_toRightOf="@+id/ivOrderFormPhoto"
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<EditText
+		android:id="@+id/etOrderFormNote"
+		android:layout_width="match_parent"
+		android:layout_height="30dp"
+		android:layout_below="@+id/ivOrderFormPhoto"
+		android:layout_marginTop="20dp"
+		android:lines="3" >
+
+		<requestFocus />
+	</EditText>
+
+	<TextView
+		android:id="@+id/tvOrderFormNoteLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/etOrderFormNote"
+		android:layout_marginBottom="20dp"
+		android:text="Notes"
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<Button
+		android:id="@+id/bOrderFormOrderButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/tvOrderFormNoteLabel"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="10dp"
+		android:text="Order"
+		android:textColor="#000000" />
+
+</RelativeLayout>

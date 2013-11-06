@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
+
+	<ImageView
+		android:id="@+id/ivOrderStatusMenuPhoto"
+		android:layout_width="50dp"
+		android:layout_height="50dp"
+		android:layout_marginBottom="20dp"
+		android:layout_marginRight="12dp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusMenuTitleLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignTop="@id/ivOrderStatusMenuPhoto"
+		android:layout_toRightOf="@id/ivOrderStatusMenuPhoto"
+		android:text="Title: "
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusMenuTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignTop="@id/ivOrderStatusMenuPhoto"
+		android:layout_toRightOf="@id/tvOrderStatusMenuTitleLabel"
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusNumberLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatusMenuTitleLabel"
+		android:layout_toRightOf="@id/ivOrderStatusMenuPhoto"
+		android:text="Order#: "
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusNumber"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatusMenuTitle"
+		android:layout_toRightOf="@id/tvOrderStatusNumberLabel"
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatusNumberLabel"
+		android:layout_toRightOf="@id/ivOrderStatusMenuPhoto"
+		android:text="Order Status: "
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatus"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatusNumber"
+		android:layout_toRightOf="@id/tvOrderStatusLabel"
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusUserNameLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatusLabel"
+		android:layout_toRightOf="@id/ivOrderStatusMenuPhoto"
+		android:text="Name: "
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusUserName"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatus"
+		android:layout_toRightOf="@id/tvOrderStatusUserNameLabel"
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusQueueCountLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatusUserNameLabel"
+		android:layout_toRightOf="@id/ivOrderStatusMenuPhoto"
+		android:text="Queue: "
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusQueueCount"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatusUserName"
+		android:layout_toRightOf="@id/tvOrderStatusQueueCountLabel"
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusOrderDateLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatusQueueCountLabel"
+		android:layout_toRightOf="@id/ivOrderStatusMenuPhoto"
+		android:text="Order date: "
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<TextView
+		android:id="@+id/tvOrderStatusOrderDate"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatusQueueCount"
+		android:layout_toRightOf="@id/tvOrderStatusOrderDateLabel"
+		android:textColor="#000000"
+		android:textSize="12sp" />
+
+	<Button
+		android:id="@+id/bCancelOrder"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tvOrderStatusOrderDate"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="10dp"
+		android:text="Cancel Order"
+		android:textColor="#000000" />
+
+</RelativeLayout>

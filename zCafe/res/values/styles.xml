@@ -1,20 +1,126 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--
+	<!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
+	-->
+	<style name="AppBaseTheme" parent="android:Theme.Light">
+		<!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
-        -->
-    </style>
+		-->
+	</style>
+	<!-- Application theme. -->
+	<!-- All customizations that are NOT specific to a particular API-level can go here. -->
+	<style name="AppTheme" parent="AppBaseTheme"></style>
+	<!-- Widget styles -->
+	<style name="TextViewDefault" parent="@android:style/Widget.TextView">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_marginLeft">2dp</item>
+		<item name="android:layout_marginTop">2dp</item>
+		<item name="android:layout_marginRight">2dp</item>
+		<item name="android:layout_marginBottom">2dp</item>
+		<item name="android:layout_alignParentBottom">true</item>
+		<item name="android:textColor">#000000</item>
+	</style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
+	<style name="ImageButtonDefault" parent="@android:style/Widget.ImageButton">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:clickable">true</item>
+		<item name="android:layout_marginLeft">2dp</item>
+		<item name="android:layout_marginTop">2dp</item>
+		<item name="android:layout_marginRight">2dp</item>
+		<item name="android:layout_marginBottom">2dp</item>
+		<item name="android:background">@drawable/layout_bg</item>
+	</style>
+
+	<style name="ButtonDefault" parent="@android:style/Widget.Button">
+		<item name="android:background">@android:drawable/btn_default</item>
+		<item name="android:focusable">true</item>
+		<item name="android:clickable">true</item>
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_centerHorizontal">true</item>
+		<item name="android:layout_marginLeft">2dp</item>
+		<item name="android:layout_marginTop">2dp</item>
+		<item name="android:layout_marginRight">2dp</item>
+		<item name="android:layout_marginBottom">2dp</item>
+		<item name="android:textColor">@android:color/primary_text_light</item>
+		<item name="android:gravity">center_vertical|center_horizontal</item>
+	</style>
+
+	<style name="EditTextMultiLineDefault" parent="@android:style/Widget.EditText">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:layout_centerHorizontal">true</item>
+		<item name="android:layout_marginLeft">2dp</item>
+		<item name="android:layout_marginTop">2dp</item>
+		<item name="android:layout_marginRight">2dp</item>
+		<item name="android:layout_marginBottom">2dp</item>
+		<item name="android:inputType">textUri|textMultiLine</item>
+		<item name="android:scrollHorizontally">false</item>
+		<item name="android:ems">10</item>
+	</style>
+
+	<!-- Menu item detail -->
+	<style name="ImageViewPhoto" parent="@style/ImageButtonDefault">
+		<item name="android:contentDescription">@string/content_description</item>
+		<item name="android:src">@android:color/transparent</item>
+		<item name="android:layout_width">50dp</item>
+		<item name="android:layout_height">50dp</item>
+		<item name="android:layout_marginBottom">20dp</item>
+	</style>
+
+	<style name="TextViewItemTitle" parent="@style/TextViewDefault">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_alignParentRight">true</item>
+		<item name="android:layout_alignLeft">@id/tvItemTitle</item>
+		<item name="android:layout_toRightOf">@+id/ivItemPhoto</item>
+	</style>
+
+	<style name="TextViewItemDescription" parent="@style/TextViewDefault">
+		<item name="android:layout_alignLeft">@id/tvItemTitle</item>
+		<item name="android:layout_alignBottom">@id/ivItemPhoto</item>
+	</style>
+
+	<style name="ButtonItemOrder" parent="@style/ButtonDefault">
+		<item name="android:layout_alignParentBottom">true</item>
+		<item name="android:text">@string/orders</item>
+		<item name="android:gravity">center_horizontal</item>
+		<item name="android:layout_below">@+id/llhorizontal</item>
+	</style>
+
+	<!-- Order form -->
+	<style name="OrderFormTitle" parent="@style/TextViewDefault">
+		<item name="android:layout_alignParentTop">true</item>
+		<item name="android:layout_centerHorizontal">true</item>
+		<item name="android:text">@string/title</item>
+		<item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+	</style>
+
+	<style name="OrderFormPhoto" parent="@style/ImageButtonDefault">
+		<item name="android:src">@drawable/layout_bg</item>
+		<item name="android:layout_marginTop">80dp</item>
+	</style>
+
+	<style name="OrderFormDescription" parent="@style/TextViewDefault">
+		<item name="android:text">@string/description</item>
+		<item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+	</style>
+
+	<style name="OrderFormOrderButton" parent="@style/ButtonDefault">
+		<item name="android:text">@string/order</item>
+		<item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+	</style>
+
+	<style name="OrderFormNote" parent="@style/EditTextMultiLineDefault"></style>
+
+	<!-- Registration -->
+	<style name="ButtonRegister" parent="@style/ButtonDefault">
+		<item name="android:text">@string/registration_button</item>
+	</style>
 
 </resources>
