@@ -1,6 +1,6 @@
 <factorypath>
-    <factorypathentry kind="WKSPJAR" id="/zCafe/libs/dagger-1.1.0.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/zCafe/libs/javax.inject-1.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/zCafe/compile-libs/dagger-compiler-1.1.0.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/zCafe/compile-libs/javawriter-2.2.1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/zcafe/libs/dagger-1.1.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/zcafe/libs/javax.inject-1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/zcafe/compile-libs/dagger-compiler-1.1.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/zcafe/compile-libs/javawriter-2.2.1.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
