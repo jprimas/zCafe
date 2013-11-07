@@ -11,9 +11,9 @@
             backward-compatibility can go here.
 		-->
 	</style>
-	<!-- Application theme. -->
-	<!-- All customizations that are NOT specific to a particular API-level can go here. -->
-	<style name="AppTheme" parent="AppBaseTheme"></style>
+
+	<style name="AppTheme" parent="@android:style/Theme.Holo.Light"></style>
+
 	<!-- Widget styles -->
 	<style name="TextViewDefault" parent="@android:style/Widget.TextView">
 		<item name="android:layout_width">wrap_content</item>

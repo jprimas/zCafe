@@ -20,13 +20,14 @@
         android:textSize="20sp" />
     
     <ListView
-        android:id="@+id/lvOrders"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:divider="@null"
-		android:dividerHeight="0dp">
+    	android:id="@+id/lvOrders"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_alignParentLeft="true"
+    	android:layout_alignParentTop="true"
+    	android:divider="@null"
+    	android:dividerHeight="0dp" >
+
     </ListView>
 
 </RelativeLayout>
