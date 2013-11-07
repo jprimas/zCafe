@@ -79,7 +79,9 @@ public class OrdersFragment extends Fragment {
 							getActivity().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
 							getActivity().findViewById(R.id.tvLoading).setVisibility(View.INVISIBLE);
 						}
-						adapter.addAll(pendingCoffees);
+						if(pendingCoffees != null && pendingCoffees.size() > 0){
+							adapter.addAll(pendingCoffees);
+						}
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}

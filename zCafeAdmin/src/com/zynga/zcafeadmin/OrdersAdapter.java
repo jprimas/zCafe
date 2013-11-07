@@ -108,7 +108,8 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 	private void animateDeletion(final int index){
 		//FragmentViewHome homeFragment = (FragmentViewHome) .getSupportFragmentManager().findFragmentByTag("homelist");
 		System.out.println(index);
-		final float x = currentView.getX();
+		//final float x = currentView.getX();
+		System.out.println(">>>>"+currentView);
 		animate(currentView).alpha(.001f).setDuration(700).
 		//animate(currentView).translationX(500).setDuration(700).
 		setListener(new AnimatorListenerAdapter() {
@@ -119,6 +120,7 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 				currentView.setAlpha(1);
 				canDelete = true;
 				//currentView.setX(x);
+				System.out.println("GOT HERE");
 			};
 		});
 
