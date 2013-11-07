@@ -26,18 +26,19 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.zynga.zcafeadmin.models.ZyngaCoffee;
 
 public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
-	
+
 	private Context context;
 	private ViewGroup parent;
 	private ZyngaCoffee coffee;
 	private String notes;
 	private View currentView;
-	
+	private static boolean canDelete = true;
+
 	public OrdersAdapter(Context context, List<ZyngaCoffee> orders){
 		super(context, 0, orders);
 		this.context = context;
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
 		View view = convertView;
@@ -53,53 +54,57 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 		TextView tvCount = (TextView) view.findViewById(R.id.tvCount);
 		Button btComplete = (Button) view.findViewById(R.id.btComplete);
 		btComplete.setTag(position);
-		
+
 		tvName.setText(Html.fromHtml(coffee.getItem().getTitle() + "<small>&nbsp;&nbsp;<small>for</small>&nbsp;&nbsp;</small>" + coffee.getUserName()));
 		tvBody.setText("Notes: " + coffee.getNotes());
 		tvCount.setText("Count: " + coffee.getCount());
-		
+
 		final View itemView = view;
 		btComplete.setOnClickListener(new Button.OnClickListener() {
-		    public void onClick(final View v) {
-		    	final Integer index = (Integer) v.getTag();
-		    	JSONObject jsonParams = new JSONObject();
-		    	StringEntity entity = null;
-		        try {
-					jsonParams.put("orderId", getItem(index).getId());
-					entity = new StringEntity(jsonParams.toString());
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-		    	AsyncHttpClient client = new AsyncHttpClient();
-				client.put(context,
-					"https://yipbb.corp.zynga.com/zcafe-api/admin/completeOrder.json",
-					entity,
-					"application/json",
-					new AsyncHttpResponseHandler() {
-				        
+			public void onClick(final View v) {
+				if(canDelete){
+					canDelete = false;
+					final Integer index = (Integer) v.getTag();
+					JSONObject jsonParams = new JSONObject();
+					StringEntity entity = null;
+					try {
+						jsonParams.put("orderId", getItem(index).getId());
+						entity = new StringEntity(jsonParams.toString());
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					AsyncHttpClient client = new AsyncHttpClient();
+					client.put(context,
+							"https://yipbb.corp.zynga.com/zcafe-api/admin/completeOrder.json",
+							entity,
+							"application/json",
+							new AsyncHttpResponseHandler() {
+
 						@Override
 						public void onSuccess(String arg0) {
-					    	currentView = itemView;
-					    	animateDeletion(index);
+							currentView = itemView;
+							animateDeletion(index);
 						};
-				        
-				        @Override
-				        public void onFailure(Throwable arg0, String arg1) {
-				        	super.onFailure(arg0, arg1);
-				        	System.out.println("failed: ");
-				        	arg0.printStackTrace();
-				        	
-				        }
-				    }
-				);
-		    }
+
+						@Override
+						public void onFailure(Throwable arg0, String arg1) {
+							super.onFailure(arg0, arg1);
+							System.out.println("failed: ");
+							arg0.printStackTrace();
+
+						}
+					}
+							);
+				}
+			}
 		});
-		
+
+
 		return view;
 	}
-	
+
 	private void animateDeletion(final int index){
 		//FragmentViewHome homeFragment = (FragmentViewHome) .getSupportFragmentManager().findFragmentByTag("homelist");
 		System.out.println(index);
@@ -112,6 +117,7 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 				System.out.println(getItem(index).getNotes());
 				remove(getItem(index));
 				currentView.setAlpha(1);
+				canDelete = true;
 				//currentView.setX(x);
 			};
 		});
