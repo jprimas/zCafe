@@ -26,37 +26,10 @@ public final class CafeModule$$ModuleAdapter extends ModuleAdapter<CafeModule> {
    */
   @Override
   public void getBindings(Map<String, Binding<?>> map) {
-    map.put("com.zynga.zcafe.CafeApplication", new ProvideApplicationProvidesAdapter(module));
     map.put("com.zynga.zcafe.events.Producers", new ProvideProducersProvidesAdapter(module));
     map.put("com.zynga.zcafe.inject.modules.CafeModule$MainThreadBus", new ProvideMainThreadBusProvidesAdapter(module));
     map.put("com.zynga.zcafe.services.CafeService", new ProvideCafeServiceProvidesAdapter(module));
-  }
-
-  /**
-   * A {@code Binder<com.zynga.zcafe.CafeApplication>} implementation which satisfies
-   * Dagger's infrastructure requirements including:
-   *
-   * Being a {@code Provider<com.zynga.zcafe.CafeApplication>} and handling creation and
-   * preparation of object instances.
-   */
-  public static final class ProvideApplicationProvidesAdapter extends Binding<com.zynga.zcafe.CafeApplication>
-      implements Provider<com.zynga.zcafe.CafeApplication> {
-    private final CafeModule module;
-
-    public ProvideApplicationProvidesAdapter(CafeModule module) {
-      super("com.zynga.zcafe.CafeApplication", null, IS_SINGLETON, "com.zynga.zcafe.inject.modules.CafeModule.provideApplication()");
-      this.module = module;
-      setLibrary(false);
-    }
-
-    /**
-     * Returns the fully provisioned instance satisfying the contract for
-     * {@code Provider<com.zynga.zcafe.CafeApplication>}.
-     */
-    @Override
-    public com.zynga.zcafe.CafeApplication get() {
-      return module.provideApplication();
-    }
+    map.put("com.zynga.zcafe.CafeApplication", new ProvideApplicationProvidesAdapter(module));
   }
 
   /**
@@ -137,6 +110,33 @@ public final class CafeModule$$ModuleAdapter extends ModuleAdapter<CafeModule> {
     @Override
     public com.zynga.zcafe.services.CafeService get() {
       return module.provideCafeService();
+    }
+  }
+
+  /**
+   * A {@code Binder<com.zynga.zcafe.CafeApplication>} implementation which satisfies
+   * Dagger's infrastructure requirements including:
+   *
+   * Being a {@code Provider<com.zynga.zcafe.CafeApplication>} and handling creation and
+   * preparation of object instances.
+   */
+  public static final class ProvideApplicationProvidesAdapter extends Binding<com.zynga.zcafe.CafeApplication>
+      implements Provider<com.zynga.zcafe.CafeApplication> {
+    private final CafeModule module;
+
+    public ProvideApplicationProvidesAdapter(CafeModule module) {
+      super("com.zynga.zcafe.CafeApplication", null, IS_SINGLETON, "com.zynga.zcafe.inject.modules.CafeModule.provideApplication()");
+      this.module = module;
+      setLibrary(false);
+    }
+
+    /**
+     * Returns the fully provisioned instance satisfying the contract for
+     * {@code Provider<com.zynga.zcafe.CafeApplication>}.
+     */
+    @Override
+    public com.zynga.zcafe.CafeApplication get() {
+      return module.provideApplication();
     }
   }
 }
