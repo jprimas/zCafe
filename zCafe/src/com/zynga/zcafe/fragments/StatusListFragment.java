@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 import com.zynga.zcafe.CafeApplication;
@@ -35,6 +37,8 @@ public class StatusListFragment extends BaseListFragment {
 
   StatusAdapter adapter;
   ListView lvItems;
+  TextView tvLoading;
+  ProgressBar progressBar;
 
   @Inject
   public StatusListFragment() {
@@ -66,6 +70,10 @@ public class StatusListFragment extends BaseListFragment {
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    progressBar = (ProgressBar) getView().findViewById(R.id.progressBar);
+    tvLoading = (TextView)	getView().findViewById(R.id.tvLoading);
+    progressBar.setVisibility(ProgressBar.VISIBLE);
+    tvLoading.setVisibility(ProgressBar.VISIBLE);
   }
 
   @Override
@@ -106,6 +114,8 @@ public class StatusListFragment extends BaseListFragment {
       ArrayList<StatusItem> items = StatusItem.fromJson(jsonArray);
       adapter.push(items);
       adapter.notifyDataSetChanged();
+      progressBar.setVisibility(ProgressBar.INVISIBLE);
+      tvLoading.setVisibility(ProgressBar.INVISIBLE);
     }
 
   }

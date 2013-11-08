@@ -72,6 +72,7 @@ public class FavoriteListFragment extends BaseListFragment {
   @Override
   public void onResume() {
     super.onResume();
+    MenuAdapter.isLoading = 0;
     Log.i(this.toString(), "RESUME");
     bus.register(this);
     String favoriteUrl = app.getResources().getString(R.string.api_url)

@@ -1,0 +1,28 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+	<RelativeLayout
+		android:id="@+id/rlInnerRelativeLayout"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true" >
+
+		<EditText
+			android:id="@+id/etConnectChatField"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_toLeftOf="@+id/bConnectSend"
+			android:inputType="textMultiLine"
+			android:maxLines="4" >
+
+			<requestFocus />
+		</EditText>
+
+		<Button
+			android:id="@+id/bConnectSend"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:text="Send" />
+	</RelativeLayout>
+
+</merge>

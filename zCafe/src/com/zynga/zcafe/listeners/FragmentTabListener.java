@@ -62,7 +62,7 @@ public class FragmentTabListener<T extends Fragment> implements TabListener {
 
     sft.commit();
 
-    /*
+    /**
      * // Check if the fragment is already initialized if (mFragment == null) {
      * // If not, instantiate and add it to the activity mFragment =
      * Fragment.instantiate(mActivity, mClass.getName());

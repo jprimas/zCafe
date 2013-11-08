@@ -49,7 +49,6 @@ public class MenuListFragment extends BaseListFragment {
     lvItems = (ListView) getView().findViewById(R.id.lvFragmentItemsList);
     lvItems.setAdapter(adapter);
     lvItems.setClickable(false);
-
   }
 
   @Override
@@ -72,6 +71,7 @@ public class MenuListFragment extends BaseListFragment {
   @Override
   public void onResume() {
     super.onResume();
+    MenuAdapter.isLoading = 0;
     Log.i(this.toString(), "RESUME");
     bus.register(this);
     String menuUrl = app.getResources().getString(R.string.api_url)

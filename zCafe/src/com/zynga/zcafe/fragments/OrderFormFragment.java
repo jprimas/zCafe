@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +41,9 @@ public class OrderFormFragment extends Fragment {
 
   @Inject
   CafeApplication app;
+
+  @Inject
+  InputMethodManager imm;
 
   @Inject
   CafeService service;

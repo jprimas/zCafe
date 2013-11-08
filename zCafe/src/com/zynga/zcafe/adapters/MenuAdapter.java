@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zynga.zcafe.CafeApplication;
 import com.zynga.zcafe.R;
+import com.zynga.zcafe.fragments.MenuListFragment;
 import com.zynga.zcafe.fragments.OrderFormFragment;
 import com.zynga.zcafe.models.MenuItem;
 
@@ -27,6 +28,7 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
 	Context context;
 	FragmentManager fragmentManager;
 	Fragment fragment;
+	public static int isLoading = 0;
 
 	public MenuAdapter(Fragment fragment, FragmentManager fragmentManager, Context context,
 			ArrayList<com.zynga.zcafe.models.MenuItem> items) {
@@ -76,10 +78,19 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
 				app.getProducers().setMenuItem(menuItem);
 			}
 		});
-		float y = view.getY(); 
-		System.out.println(y);
-		view.setY(y+500);
-		animate(view).translationY(-y).setDuration(1000);
+		if(isLoading == 0 || isLoading == 2 || isLoading == 4){
+			isLoading += 1;
+			float x = view.getX();
+			view.setAlpha(0);
+			view.setX(x-300);
+			animate(view).translationX(x).alpha(1).setDuration(750);
+		}else if(isLoading == 1 || isLoading == 3){
+			isLoading += 1;
+			float x = view.getX();
+			view.setAlpha(0);
+			view.setX(x+300);
+			animate(view).translationX(-x).alpha(1).setDuration(750);
+		}
 
 		return view;
 	}

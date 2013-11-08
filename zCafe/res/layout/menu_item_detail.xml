@@ -3,55 +3,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-    
-	<RelativeLayout 
-		android:id="@+id/rlMenuItem"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="5dp"
-		android:layout_marginLeft="5dp"
-		android:layout_marginRight="5dp"
-		android:layout_marginTop="5dp"
-		android:background="@drawable/background"
-		android:paddingBottom="10dp"
-		android:paddingLeft="10dp"
-		android:paddingRight="10dp"
-		android:paddingTop="5dp" >
-	
-		<ImageView
-			android:id="@+id/ivItemPhoto"
-			android:layout_width="70dp"
-			android:layout_height="70dp"
-			android:layout_marginBottom="20dp"
-			android:background="@drawable/background"
-			android:contentDescription="@string/content_description" />
-	
-		<TextView
-			android:id="@+id/tvItemTitle"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_alignTop="@id/ivItemPhoto"
-			android:layout_marginLeft="5dp"
-			android:layout_marginTop="10dp"
-			android:layout_toRightOf="@id/ivItemPhoto"
-			android:textColor="#000000"
-			android:textSize="25sp" />
-	
-		<Button
-			android:id="@+id/bItemOrder"
-			android:layout_alignParentRight="true"
-			android:layout_width="100dp"
-			android:layout_height="40dp"
-			android:layout_alignParentBottom="true"
-			android:layout_below="@+id/tvItemTitle"
-			android:layout_centerHorizontal="true"
-			android:layout_marginTop="5dp"
-			android:paddingTop="5dp"
-			android:background="@drawable/states_register_button"
-			android:textColor="@color/red"
-			android:textSize="20sp"
-			android:textStyle="bold"
-			android:text="ORDER" />
-	
-	</RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/background"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp" >
+
+        <ImageView
+            android:id="@+id/ivItemPhoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/background"
+            android:contentDescription="@string/content_description" />
+
+        <TextView
+            android:id="@+id/tvItemTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ivItemPhoto"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/ivItemPhoto"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/bItemOrder"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@+id/tvItemDescription"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/states_register_button"
+            android:paddingTop="7dp"
+            android:text="ORDER"
+            android:textColor="@color/red"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
 </LinearLayout>

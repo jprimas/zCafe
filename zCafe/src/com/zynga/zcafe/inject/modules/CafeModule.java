@@ -2,19 +2,23 @@ package com.zynga.zcafe.inject.modules;
 
 import javax.inject.Singleton;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.zynga.zcafe.CafeApplication;
 import com.zynga.zcafe.activities.CafeActivity;
 import com.zynga.zcafe.activities.RegistrationActivity;
+import com.zynga.zcafe.adapters.ConnectAdapter;
 import com.zynga.zcafe.adapters.MenuAdapter;
 import com.zynga.zcafe.adapters.StatusAdapter;
 import com.zynga.zcafe.events.Producers;
 import com.zynga.zcafe.fragments.BaseListFragment;
+import com.zynga.zcafe.fragments.ConnectFragment;
 import com.zynga.zcafe.fragments.FavoriteListFragment;
 import com.zynga.zcafe.fragments.MenuListFragment;
 import com.zynga.zcafe.fragments.OrderFormFragment;
@@ -32,9 +36,10 @@ import dagger.Provides;
 @Module(injects = { CafeService.class, CafeApplication.class, CafeActivity.class,
     RegistrationActivity.class,
  BaseListFragment.class, OrderFormFragment.class,
-    FavoriteListFragment.class, MenuListFragment.class, StatusListFragment.class, Producers.class,
+    FavoriteListFragment.class, MenuListFragment.class, StatusListFragment.class,
+    ConnectFragment.class, Producers.class,
  MenuAdapter.class, FragmentTabListener.class,
- StatusAdapter.class, RegistrationFragment.class,
+    StatusAdapter.class, ConnectAdapter.class, RegistrationFragment.class,
     MainThreadBus.class
  })
 public class CafeModule {
@@ -49,6 +54,13 @@ public class CafeModule {
   @Singleton
   CafeApplication provideApplication() {
     return this.app;
+  }
+
+  @Provides
+  InputMethodManager provideImm() {
+    InputMethodManager imm = (InputMethodManager) app
+        .getSystemService(Context.INPUT_METHOD_SERVICE);
+    return imm;
   }
 
   @Provides
