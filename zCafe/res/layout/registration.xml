@@ -29,7 +29,7 @@
 		style="@style/ButtonRegister"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@drawable/states_complete_button"
+		android:background="@drawable/states_register_button"
 		android:textColor="@color/red"
 		android:textSize="20sp" />
 
