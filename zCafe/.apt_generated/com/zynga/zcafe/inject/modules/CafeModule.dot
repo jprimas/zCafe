@@ -1,25 +1,31 @@
 digraph G1 {
   concentrate = true;
-  n2 [label="com.zynga.zcafe.CafeApplication"];
+  n2 [label="com.zynga.zcafe.services.CafeService"];
   CafeActivity -> n2;
-  n3 [label="com.zynga.zcafe.services.CafeService"];
+  n3 [label="com.zynga.zcafe.inject.modules.CafeModule$MainThreadBus"];
   CafeActivity -> n3;
-  n4 [label="com.zynga.zcafe.inject.modules.CafeModule$MainThreadBus"];
+  n4 [label="com.zynga.zcafe.CafeApplication"];
   CafeActivity -> n4;
+  ConnectAdapter -> n2;
+  ConnectAdapter -> n3;
+  ConnectFragment -> n2;
+  ConnectFragment -> n3;
+  ConnectFragment -> n4;
   FavoriteListFragment -> n2;
   FavoriteListFragment -> n3;
   FavoriteListFragment -> n4;
   MenuListFragment -> n2;
   MenuListFragment -> n3;
   MenuListFragment -> n4;
+  OrderFormFragment -> InputMethodManager;
   OrderFormFragment -> n2;
   OrderFormFragment -> n3;
   OrderFormFragment -> n4;
-  RegistrationActivity -> n4;
+  RegistrationActivity -> n3;
+  RegistrationFragment -> n2;
   RegistrationFragment -> n3;
-  RegistrationFragment -> n4;
+  StatusAdapter -> n2;
   StatusAdapter -> n3;
-  StatusAdapter -> n4;
   StatusListFragment -> n2;
   StatusListFragment -> n3;
   StatusListFragment -> n4;
@@ -27,6 +33,6 @@ digraph G1 {
   n6 [label="com.zynga.zcafe.events.Producers"];
   n5 -> n6;
   n7 [label="members/com.zynga.zcafe.services.CafeService"];
-  n7 -> n2;
+  n7 -> n3;
   n7 -> n4;
 }

@@ -16,6 +16,7 @@ import android.view.Menu;
 import com.squareup.otto.Produce;
 import com.zynga.zcafe.CafeApplication;
 import com.zynga.zcafe.R;
+import com.zynga.zcafe.fragments.ConnectFragment;
 import com.zynga.zcafe.fragments.FavoriteListFragment;
 import com.zynga.zcafe.fragments.MenuListFragment;
 import com.zynga.zcafe.fragments.StatusListFragment;
@@ -60,30 +61,39 @@ public class CafeActivity extends FragmentActivity {
     Tab tabMenu = actionBar
         .newTab()
         .setText(R.string.menu)
-        .setTag(getResources().getString(R.string.menu_fragment))
+        .setTag(getString(R.string.menu_fragment))
         .setTabListener(
-            new FragmentTabListener<MenuListFragment>(this, getResources().getString(
-                R.string.menu_fragment), MenuListFragment.class));
+            new FragmentTabListener<MenuListFragment>(this, getString(R.string.menu_fragment),
+                MenuListFragment.class));
  
     Tab tabStatus = actionBar
         .newTab()
         .setText(R.string.status)
-        .setTag(getResources().getString(R.string.status_fragment))
+        .setTag(getString(R.string.status_fragment))
         .setTabListener(
-            new FragmentTabListener<StatusListFragment>(this, getResources().getString(
-                R.string.status_fragment), StatusListFragment.class));
+            new FragmentTabListener<StatusListFragment>(this, getString(R.string.status_fragment),
+                StatusListFragment.class));
       
     Tab tabFav = actionBar
         .newTab()
         .setText(R.string.favorite)
-        .setTag(getResources().getString(R.string.favorite_fragment))
+        .setTag(getString(R.string.favorite_fragment))
         .setTabListener(
-            new FragmentTabListener<FavoriteListFragment>(this, getResources().getString(
-                R.string.favorite_fragment), FavoriteListFragment.class));
+            new FragmentTabListener<FavoriteListFragment>(this,
+                getString(R.string.favorite_fragment), FavoriteListFragment.class));
+
+    Tab tabConnect = actionBar
+        .newTab()
+        .setText(R.string.connect)
+        .setTag(getString(R.string.connect_fragment))
+        .setTabListener(
+            new FragmentTabListener<ConnectFragment>(this, getString(R.string.connect_fragment),
+                ConnectFragment.class));
 
     actionBar.addTab(tabMenu);
     actionBar.addTab(tabStatus);
     actionBar.addTab(tabFav);
+    actionBar.addTab(tabConnect);
     actionBar.selectTab(tabMenu);
     bus.post(tabMenu);
   }

@@ -12,7 +12,7 @@ import javax.inject.Provider;
  * instance provision of types served by {@code @Provides} methods.
  */
 public final class CafeModule$$ModuleAdapter extends ModuleAdapter<CafeModule> {
-  private static final String[] INJECTS = { "members/com.zynga.zcafe.services.CafeService", "members/com.zynga.zcafe.CafeApplication", "members/com.zynga.zcafe.activities.CafeActivity", "members/com.zynga.zcafe.activities.RegistrationActivity", "members/com.zynga.zcafe.fragments.BaseListFragment", "members/com.zynga.zcafe.fragments.OrderFormFragment", "members/com.zynga.zcafe.fragments.FavoriteListFragment", "members/com.zynga.zcafe.fragments.MenuListFragment", "members/com.zynga.zcafe.fragments.StatusListFragment", "members/com.zynga.zcafe.events.Producers", "members/com.zynga.zcafe.adapters.MenuAdapter", "members/com.zynga.zcafe.listeners.FragmentTabListener", "members/com.zynga.zcafe.adapters.StatusAdapter", "members/com.zynga.zcafe.fragments.RegistrationFragment", "members/com.zynga.zcafe.inject.modules.CafeModule$MainThreadBus", };
+  private static final String[] INJECTS = { "members/com.zynga.zcafe.services.CafeService", "members/com.zynga.zcafe.CafeApplication", "members/com.zynga.zcafe.activities.CafeActivity", "members/com.zynga.zcafe.activities.RegistrationActivity", "members/com.zynga.zcafe.fragments.BaseListFragment", "members/com.zynga.zcafe.fragments.OrderFormFragment", "members/com.zynga.zcafe.fragments.FavoriteListFragment", "members/com.zynga.zcafe.fragments.MenuListFragment", "members/com.zynga.zcafe.fragments.StatusListFragment", "members/com.zynga.zcafe.fragments.ConnectFragment", "members/com.zynga.zcafe.events.Producers", "members/com.zynga.zcafe.adapters.MenuAdapter", "members/com.zynga.zcafe.listeners.FragmentTabListener", "members/com.zynga.zcafe.adapters.StatusAdapter", "members/com.zynga.zcafe.adapters.ConnectAdapter", "members/com.zynga.zcafe.fragments.RegistrationFragment", "members/com.zynga.zcafe.inject.modules.CafeModule$MainThreadBus", };
   private static final Class<?>[] STATIC_INJECTIONS = { };
   private static final Class<?>[] INCLUDES = { };
 
@@ -26,36 +26,64 @@ public final class CafeModule$$ModuleAdapter extends ModuleAdapter<CafeModule> {
    */
   @Override
   public void getBindings(Map<String, Binding<?>> map) {
-    map.put("com.zynga.zcafe.CafeApplication", new ProvideApplicationProvidesAdapter(module));
-    map.put("com.zynga.zcafe.events.Producers", new ProvideProducersProvidesAdapter(module));
     map.put("com.zynga.zcafe.inject.modules.CafeModule$MainThreadBus", new ProvideMainThreadBusProvidesAdapter(module));
+    map.put("android.view.inputmethod.InputMethodManager", new ProvideImmProvidesAdapter(module));
+    map.put("com.zynga.zcafe.events.Producers", new ProvideProducersProvidesAdapter(module));
     map.put("com.zynga.zcafe.services.CafeService", new ProvideCafeServiceProvidesAdapter(module));
+    map.put("com.zynga.zcafe.CafeApplication", new ProvideApplicationProvidesAdapter(module));
   }
 
   /**
-   * A {@code Binder<com.zynga.zcafe.CafeApplication>} implementation which satisfies
+   * A {@code Binder<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus>} implementation which satisfies
    * Dagger's infrastructure requirements including:
    *
-   * Being a {@code Provider<com.zynga.zcafe.CafeApplication>} and handling creation and
+   * Being a {@code Provider<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus>} and handling creation and
    * preparation of object instances.
    */
-  public static final class ProvideApplicationProvidesAdapter extends Binding<com.zynga.zcafe.CafeApplication>
-      implements Provider<com.zynga.zcafe.CafeApplication> {
+  public static final class ProvideMainThreadBusProvidesAdapter extends Binding<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus>
+      implements Provider<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus> {
     private final CafeModule module;
 
-    public ProvideApplicationProvidesAdapter(CafeModule module) {
-      super("com.zynga.zcafe.CafeApplication", null, IS_SINGLETON, "com.zynga.zcafe.inject.modules.CafeModule.provideApplication()");
+    public ProvideMainThreadBusProvidesAdapter(CafeModule module) {
+      super("com.zynga.zcafe.inject.modules.CafeModule$MainThreadBus", null, IS_SINGLETON, "com.zynga.zcafe.inject.modules.CafeModule.provideMainThreadBus()");
       this.module = module;
       setLibrary(false);
     }
 
     /**
      * Returns the fully provisioned instance satisfying the contract for
-     * {@code Provider<com.zynga.zcafe.CafeApplication>}.
+     * {@code Provider<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus>}.
      */
     @Override
-    public com.zynga.zcafe.CafeApplication get() {
-      return module.provideApplication();
+    public com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus get() {
+      return module.provideMainThreadBus();
+    }
+  }
+
+  /**
+   * A {@code Binder<android.view.inputmethod.InputMethodManager>} implementation which satisfies
+   * Dagger's infrastructure requirements including:
+   *
+   * Being a {@code Provider<android.view.inputmethod.InputMethodManager>} and handling creation and
+   * preparation of object instances.
+   */
+  public static final class ProvideImmProvidesAdapter extends Binding<android.view.inputmethod.InputMethodManager>
+      implements Provider<android.view.inputmethod.InputMethodManager> {
+    private final CafeModule module;
+
+    public ProvideImmProvidesAdapter(CafeModule module) {
+      super("android.view.inputmethod.InputMethodManager", null, NOT_SINGLETON, "com.zynga.zcafe.inject.modules.CafeModule.provideImm()");
+      this.module = module;
+      setLibrary(false);
+    }
+
+    /**
+     * Returns the fully provisioned instance satisfying the contract for
+     * {@code Provider<android.view.inputmethod.InputMethodManager>}.
+     */
+    @Override
+    public android.view.inputmethod.InputMethodManager get() {
+      return module.provideImm();
     }
   }
 
@@ -87,33 +115,6 @@ public final class CafeModule$$ModuleAdapter extends ModuleAdapter<CafeModule> {
   }
 
   /**
-   * A {@code Binder<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus>} implementation which satisfies
-   * Dagger's infrastructure requirements including:
-   *
-   * Being a {@code Provider<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus>} and handling creation and
-   * preparation of object instances.
-   */
-  public static final class ProvideMainThreadBusProvidesAdapter extends Binding<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus>
-      implements Provider<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus> {
-    private final CafeModule module;
-
-    public ProvideMainThreadBusProvidesAdapter(CafeModule module) {
-      super("com.zynga.zcafe.inject.modules.CafeModule$MainThreadBus", null, IS_SINGLETON, "com.zynga.zcafe.inject.modules.CafeModule.provideMainThreadBus()");
-      this.module = module;
-      setLibrary(false);
-    }
-
-    /**
-     * Returns the fully provisioned instance satisfying the contract for
-     * {@code Provider<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus>}.
-     */
-    @Override
-    public com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus get() {
-      return module.provideMainThreadBus();
-    }
-  }
-
-  /**
    * A {@code Binder<com.zynga.zcafe.services.CafeService>} implementation which satisfies
    * Dagger's infrastructure requirements including:
    *
@@ -137,6 +138,33 @@ public final class CafeModule$$ModuleAdapter extends ModuleAdapter<CafeModule> {
     @Override
     public com.zynga.zcafe.services.CafeService get() {
       return module.provideCafeService();
+    }
+  }
+
+  /**
+   * A {@code Binder<com.zynga.zcafe.CafeApplication>} implementation which satisfies
+   * Dagger's infrastructure requirements including:
+   *
+   * Being a {@code Provider<com.zynga.zcafe.CafeApplication>} and handling creation and
+   * preparation of object instances.
+   */
+  public static final class ProvideApplicationProvidesAdapter extends Binding<com.zynga.zcafe.CafeApplication>
+      implements Provider<com.zynga.zcafe.CafeApplication> {
+    private final CafeModule module;
+
+    public ProvideApplicationProvidesAdapter(CafeModule module) {
+      super("com.zynga.zcafe.CafeApplication", null, IS_SINGLETON, "com.zynga.zcafe.inject.modules.CafeModule.provideApplication()");
+      this.module = module;
+      setLibrary(false);
+    }
+
+    /**
+     * Returns the fully provisioned instance satisfying the contract for
+     * {@code Provider<com.zynga.zcafe.CafeApplication>}.
+     */
+    @Override
+    public com.zynga.zcafe.CafeApplication get() {
+      return module.provideApplication();
     }
   }
 }

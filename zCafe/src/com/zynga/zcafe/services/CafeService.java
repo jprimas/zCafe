@@ -16,8 +16,10 @@ import com.zynga.zcafe.CafeApplication;
 import com.zynga.zcafe.R;
 import com.zynga.zcafe.events.CancelOrderEvent;
 import com.zynga.zcafe.events.FavoriteEvent;
+import com.zynga.zcafe.events.GetMessagesEvent;
 import com.zynga.zcafe.events.MenuEvent;
 import com.zynga.zcafe.events.OrderStatusEvent;
+import com.zynga.zcafe.events.PostMessageEvent;
 import com.zynga.zcafe.events.RegistrationEvent;
 import com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus;
 
@@ -35,6 +37,53 @@ public class CafeService {
   public CafeService(MainThreadBus bus) {
     this.bus = bus;
     this.bus.register(this);
+  }
+
+  public void getMessages(String url) {
+    JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
+      @Override
+      public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+        Log.i("GET MENU1", "SUCCESS");
+        GetMessagesEvent event = new GetMessagesEvent(0, new String(responseBody));
+        bus.post(event);
+      }
+
+      @Override
+      public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+        // String response = new String(responseBody);
+        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
+        Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+        Log.d("GET MENU1 ERROR", error.getMessage());
+      }
+    };
+    Log.i("GET MESSAGES URL", url);
+    client.get(url, handler);
+  }
+
+  public void postMessage(Context context, String url, HttpEntity entity) {
+    Log.i("CONNECT-URL", url);
+    Log.i("CONNECT", entity.toString());
+    JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
+      @Override
+      public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+        String response = new String(responseBody);
+        Log.i("CONNECT-POST-SUCCESS", response);
+        PostMessageEvent event = new PostMessageEvent(0, response);
+        bus.post(event);
+      }
+
+      @Override
+      public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+        PostMessageEvent event = new PostMessageEvent(1, error.getMessage());
+        Log.i("CONNECT-POST-ERROR", error.getMessage());
+        bus.post(event);
+        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
+        Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+      }
+
+    };
+
+    client.post(context, url, entity, "application/json", handler);
   }
 
   public void registerUser(Context context, String url, HttpEntity entity) {
@@ -76,9 +125,10 @@ public class CafeService {
 
       @Override
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        String response = new String(responseBody);
+        // Do not create string onFailure because no responseBody.
+        // String response = new String(responseBody);
         CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
-        Toast.makeText(app.getContext(), response, Toast.LENGTH_LONG).show();
+        Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
         Log.d("GET MENU1 ERROR", error.getMessage());
       }
     };

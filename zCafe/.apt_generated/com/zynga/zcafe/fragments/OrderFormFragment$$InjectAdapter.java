@@ -25,6 +25,7 @@ public final class OrderFormFragment$$InjectAdapter extends Binding<OrderFormFra
     implements Provider<OrderFormFragment>, MembersInjector<OrderFormFragment> {
   private Binding<com.zynga.zcafe.CafeApplication> app;
   private Binding<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus> bus;
+  private Binding<android.view.inputmethod.InputMethodManager> imm;
   private Binding<com.zynga.zcafe.services.CafeService> service;
 
   public OrderFormFragment$$InjectAdapter() {
@@ -40,6 +41,7 @@ public final class OrderFormFragment$$InjectAdapter extends Binding<OrderFormFra
   public void attach(Linker linker) {
     app = (Binding<com.zynga.zcafe.CafeApplication>) linker.requestBinding("com.zynga.zcafe.CafeApplication", OrderFormFragment.class, getClass().getClassLoader());
     bus = (Binding<com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus>) linker.requestBinding("com.zynga.zcafe.inject.modules.CafeModule$MainThreadBus", OrderFormFragment.class, getClass().getClassLoader());
+    imm = (Binding<android.view.inputmethod.InputMethodManager>) linker.requestBinding("android.view.inputmethod.InputMethodManager", OrderFormFragment.class, getClass().getClassLoader());
     service = (Binding<com.zynga.zcafe.services.CafeService>) linker.requestBinding("com.zynga.zcafe.services.CafeService", OrderFormFragment.class, getClass().getClassLoader());
   }
 
@@ -51,6 +53,7 @@ public final class OrderFormFragment$$InjectAdapter extends Binding<OrderFormFra
   public void getDependencies(Set<Binding<?>> getBindings, Set<Binding<?>> injectMembersBindings) {
     injectMembersBindings.add(app);
     injectMembersBindings.add(bus);
+    injectMembersBindings.add(imm);
     injectMembersBindings.add(service);
   }
 
@@ -73,6 +76,7 @@ public final class OrderFormFragment$$InjectAdapter extends Binding<OrderFormFra
   public void injectMembers(OrderFormFragment object) {
     object.app = app.get();
     object.bus = bus.get();
+    object.imm = imm.get();
     object.service = service.get();
   }
 }

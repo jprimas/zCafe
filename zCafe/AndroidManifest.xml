@@ -87,7 +87,7 @@
 		<activity
 			android:name="com.zynga.zcafe.activities.CafeActivity"
 			android:label="@string/app_name"
-			android:windowSoftInputMode="stateVisible|adjustResize" >
+			android:windowSoftInputMode="adjustResize|stateHidden" >
 			<intent-filter>
 				<action
 					android:name="android.intent.action.MAIN" />

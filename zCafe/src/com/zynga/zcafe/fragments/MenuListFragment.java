@@ -49,7 +49,6 @@ public class MenuListFragment extends BaseListFragment {
     lvItems = (ListView) getView().findViewById(R.id.lvFragmentItemsList);
     lvItems.setAdapter(adapter);
     lvItems.setClickable(false);
-
   }
 
   @Override
