@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
     <RelativeLayout
@@ -12,7 +12,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:animateLayoutChanges="true"
         android:background="@drawable/background"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
@@ -29,29 +28,19 @@
             android:scaleType="centerCrop" />
 
         <TextView
-            android:id="@+id/tvOrderStatusMenuTitleLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/ivOrderStatusMenuPhoto"
-            android:layout_toRightOf="@id/ivOrderStatusMenuPhoto"
-            android:text="Title: "
-            android:textColor="#000000"
-            android:textSize="12sp" />
-
-        <TextView
             android:id="@+id/tvOrderStatusMenuTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/ivOrderStatusMenuPhoto"
-            android:layout_toRightOf="@id/tvOrderStatusMenuTitleLabel"
+            android:layout_centerHorizontal="true"
             android:textColor="#000000"
-            android:textSize="12sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvOrderStatusNumberLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvOrderStatusMenuTitleLabel"
+            android:layout_below="@id/tvOrderStatusMenuTitle"
             android:layout_toRightOf="@id/ivOrderStatusMenuPhoto"
             android:text="Order#: "
             android:textColor="#000000"

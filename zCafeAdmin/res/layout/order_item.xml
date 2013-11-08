@@ -42,14 +42,14 @@
 
         <ImageButton
             android:id="@+id/btComplete"
-            android:layout_width="65.6sp"
-            android:layout_height="60sp"
+            android:layout_width="80sp"
+            android:layout_height="70sp"
             android:scaleType="fitXY"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
             
-            android:src="@drawable/checkmark"
+            android:src="@drawable/bean"
             android:background="@drawable/states_complete_button" />
 
     </RelativeLayout>

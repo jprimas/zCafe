@@ -114,8 +114,10 @@ public class StatusListFragment extends BaseListFragment {
       ArrayList<StatusItem> items = StatusItem.fromJson(jsonArray);
       adapter.push(items);
       adapter.notifyDataSetChanged();
-      progressBar.setVisibility(ProgressBar.INVISIBLE);
-      tvLoading.setVisibility(ProgressBar.INVISIBLE);
+      if(items != null && items.size() > 0){
+	      progressBar.setVisibility(ProgressBar.INVISIBLE);
+	      tvLoading.setVisibility(ProgressBar.INVISIBLE);
+      }
     }
 
   }

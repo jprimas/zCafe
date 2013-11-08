@@ -34,6 +34,7 @@
         <item name="android:progressBarStyle">@style/ProgressBar.Example</item>
     </style>
 
+    
     <style name="ActionBar.Transparent.Example" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/ActionBar.TitleTextStyle</item>
         <item name="android:background">@drawable/ab_transparent_example</item>

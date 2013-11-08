@@ -81,7 +81,7 @@
 		android:allowBackup="true"
 		android:allowClearUserData="true"
 		android:enabled="true"
-		android:icon="@drawable/zcafe"
+		android:icon="@drawable/ic_launcher"
 		android:label="ZCafe"
 		android:theme="@style/AppTheme" >
 		<activity
