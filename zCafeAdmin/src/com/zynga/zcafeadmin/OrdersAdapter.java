@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +53,7 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 		TextView tvName = (TextView) view.findViewById(R.id.tvName);
 		TextView tvBody = (TextView) view.findViewById(R.id.tvBody);
 		TextView tvCount = (TextView) view.findViewById(R.id.tvCount);
-		Button btComplete = (Button) view.findViewById(R.id.btComplete);
+		ImageButton btComplete = (ImageButton) view.findViewById(R.id.btComplete);
 		btComplete.setTag(position);
 
 		tvName.setText(Html.fromHtml(coffee.getItem().getTitle() + "<small>&nbsp;&nbsp;<small>for</small>&nbsp;&nbsp;</small>" + coffee.getUserName()));

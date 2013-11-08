@@ -11,33 +11,72 @@
             backward-compatibility can go here.
         -->
     </style>
-
-   
+    
     <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
-        <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_example</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Example</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Example</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Example</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Example</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Example</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_example</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_example</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Example</item>
+        
+        
     </style>
 
-    <style name="AppTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleTextStyle</item>
-        <item name="android:actionBarTabStyle">@style/AppTheme.ActionBar.TabStyle</item>
-        <item name="android:actionBarTabTextStyle">@style/AppTheme.ActionBar.TabTextStyle</item>
+    <style name="ActionBar.Solid.Example" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:titleTextStyle">@style/ActionBar.TitleTextStyle</item>
+        <item name="android:background">@drawable/ab_solid_example</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_example</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_example</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Example</item>
     </style>
 
-    <style name="AppTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+    <style name="ActionBar.Transparent.Example" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/ActionBar.TitleTextStyle</item>
+        <item name="android:background">@drawable/ab_transparent_example</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Example</item>
+    </style>
+    
+    <style name="ActionBar.TitleTextStyle" parent="@android:style/Widget.TextView">
         <item name="android:textColor">@color/red</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">30sp</item>
     </style>
-    
-    <style name="AppTheme.ActionBar.TabTextStyle" parent="@android:style/Widget.Holo.Light.ActionBar.TabText">
-        <item name="android:textColor">@color/red</item>
-        <item name="android:textSize">20sp</item>
+
+    <style name="PopupMenu.Example" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>	
+    </style>
+
+    <style name="DropDownListView.Example" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_example</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Example" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_example</item>
+    </style>
+
+    <style name="DropDownNav.Example" parent="@android:style/Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_example</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_example</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_example</item>
     </style>
     
-    <style name="AppTheme.ActionBar.TabStyle" parent="@android:style/Widget.Holo.Light.ActionBar.TabBar">
-        <item name="android:background">@color/aqua</item>
-        <item name="android:paddingLeft">32dp</item>
-        <item name="android:paddingRight">32dp</item>
+    <style name="ProgressBar.Example" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_example</item>
     </style>
+    
+    <style name="ActionButton.CloseMode.Example" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_example</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Example.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Example</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Example</item>
+    </style>
+    
     
 </resources>

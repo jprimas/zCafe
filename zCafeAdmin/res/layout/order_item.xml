@@ -22,7 +22,8 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
-        	android:textSize="15sp"
+        	android:textSize="18sp"
+        	android:textStyle="bold"
         	 />
 
         <TextView
@@ -39,17 +40,17 @@
             android:layout_below="@+id/tvBody"
             android:layout_marginLeft="12dp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btComplete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="65.6sp"
+            android:layout_height="60sp"
+            android:scaleType="fitXY"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
-            android:textSize="13dp"
-            android:textColor="@color/red"
-            android:background="@drawable/states_complete_button"
-            android:text="Complete" />
+            
+            android:src="@drawable/checkmark"
+            android:background="@drawable/states_complete_button" />
 
     </RelativeLayout>
     
