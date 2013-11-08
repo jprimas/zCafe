@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/white"
 	android:orientation="vertical" >
 
 	<EditText
@@ -10,7 +9,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="5dp"
-		android:layout_marginTop="10dp"
+		android:layout_marginTop="30dp"
+		android:layout_marginLeft="120dp"
 		android:ems="20"
 		android:inputType="textPersonName" >
 
@@ -22,11 +22,13 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="30dp"
+		android:layout_marginLeft="130dp"
 		android:text="Full name" />
 
 	<Button
 		android:id="@+id/bRegister"
 		style="@style/ButtonRegister"
+		android:layout_marginLeft="150dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="@drawable/states_register_button"
