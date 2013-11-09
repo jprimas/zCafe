@@ -2,11 +2,14 @@ package com.zynga.zcafe.activities;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Inject;
+
+import org.apache.http.entity.StringEntity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -87,44 +90,68 @@ public class ProfileActivity extends FragmentActivity {
         bRegister.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-              createAndStoreProfile();
-              finish();
+              Profile profile = createAndStoreProfile();
+              if (profile != null) {
+                if (!(profile.getUaId().isEmpty() || profile.getUdId().isEmpty() || profile.getName()
+                    .isEmpty())) {
+                  registerUser();
+                  finish();
+                }
+              }
             }
-        });
+         });
 	}
 	
-	 private void createAndStoreProfile() {
-		    SharedPreferences configs = app.getConfigs();
-		    SharedPreferences.Editor editor = configs.edit();
-		    boolean isProfileComplete = true;
-		    // Fullname
-		    String name = etFullName.getText().toString();
-		    if (name.isEmpty()) {
-		      Toast.makeText(getApplicationContext(),
-		          getResources().getString(R.string.warning_registration_empty_name),
-		          Toast.LENGTH_LONG).show();
-		      isProfileComplete = false;
-		    } else {
-		      editor.putString("name", name);
-		    }
+	private void registerUser() {
+	    Profile profile = app.getProfile();
+	    StringEntity entity = null;
+	    try {
+	      entity = new StringEntity(profile.getProfileJson().toString());
+	    } catch (UnsupportedEncodingException e) {
+	      e.printStackTrace();
+	    }
+	    String url = getResources().getString(R.string.api_url)
+	        + getResources().getString(R.string.register_post_url);
+	    Log.i("UAID", url);
+	    service.registerUser(app.getContext(), url, entity);
+	}
+	
+	private Profile createAndStoreProfile() {
+	    SharedPreferences configs = app.getConfigs();
+	    SharedPreferences.Editor editor = configs.edit();
+	    boolean isProfileComplete = true;
+	    // Fullname
+	    String name = etFullName.getText().toString();
+	    if (name.isEmpty()) {
+	      Toast.makeText(getApplicationContext(),getResources().getString(R.string.warning_registration_empty_name),
+	          Toast.LENGTH_LONG).show();
+	      isProfileComplete = false;
+	    } else {
+	      editor.putString("name", name);
+	    }
 
-		    // udid
-		    String udid = configs.getString("udid", "");
-		    if (udid.isEmpty()) {
-		      udid = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
-		    }
-		    editor.putString("udid", udid);
+	    // udid
+	    String udid = configs.getString("udid", "");
+	    if (udid.isEmpty()) {
+	      udid = Secure.getString(getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+	    }
+	    editor.putString("udid", udid);
 
-		    String uaid = PushManager.shared().getAPID();
-		    editor.putString("uaid", uaid);
-		    // Log.i("UAID", uaid);
+	    String uaid = PushManager.shared().getAPID();
+	    editor.putString("uaid", uaid);
+	    // Log.i("UAID", uaid);
 
-		    if (!isProfileComplete) {
-		      return;
-		    }
+	    if (!isProfileComplete) {
+	      return null;
+	    }
 
-		    editor.commit();
-		  }
+	    // Creates new profile
+	    String device = getResources().getString(R.string.registration_device);
+	    editor.commit();
+	    Profile newProfile = new Profile("0", name, udid, uaid, device);
+	    return newProfile;
+	}
+	 
 
 	private void setViews() {
 		etFullName = (EditText) findViewById(R.id.etFullName);
