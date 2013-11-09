@@ -12,6 +12,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 import com.zynga.zcafe.CafeApplication;
 import com.zynga.zcafe.activities.CafeActivity;
+import com.zynga.zcafe.activities.ProfileActivity;
 import com.zynga.zcafe.activities.RegistrationActivity;
 import com.zynga.zcafe.adapters.ConnectAdapter;
 import com.zynga.zcafe.adapters.MenuAdapter;
@@ -40,7 +41,7 @@ import dagger.Provides;
     ConnectFragment.class, Producers.class,
  MenuAdapter.class, FragmentTabListener.class,
     StatusAdapter.class, ConnectAdapter.class, RegistrationFragment.class,
-    MainThreadBus.class
+    MainThreadBus.class, ProfileActivity.class
  })
 public class CafeModule {
 

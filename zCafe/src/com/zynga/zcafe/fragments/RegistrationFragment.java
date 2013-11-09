@@ -268,11 +268,6 @@ public class RegistrationFragment extends Fragment {
    
       fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
    
-      
-      Toast.makeText(getView().getContext(),
-          fileUri.toString(),
-              Toast.LENGTH_LONG).show();
-      
       intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
    
       // start the image capture Intent
@@ -312,7 +307,7 @@ public class RegistrationFragment extends Fragment {
   private void previewCapturedImage() {
       try {
           
-        ivProfile.setVisibility(View.VISIBLE);
+          ivProfile.setVisibility(View.VISIBLE);
 
           // bimatp factory
           BitmapFactory.Options options = new BitmapFactory.Options();
@@ -337,10 +332,15 @@ public class RegistrationFragment extends Fragment {
           String url = getView().getResources().getString(R.string.api_url)
                   + getView().getResources().getString(R.string.upload_profile_image)+"/test.json";
           
-              Log.i("upload image", url);
-              service.uploadProfilePic(params, url, null);
-              
-          //CommonUtil.uploadFile(fileUri.getPath());
+          Log.i("upload image", url);
+          service.uploadProfilePic(params, url, null);
+       
+          SharedPreferences configs = app.getConfigs();
+          SharedPreferences.Editor editor = configs.edit();
+          
+          editor.putString("profilePath", fileUri.getPath());
+          
+          editor.commit();
           
       } catch (NullPointerException e) {
           e.printStackTrace();

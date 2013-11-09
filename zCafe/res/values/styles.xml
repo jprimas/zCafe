@@ -122,5 +122,10 @@
 	<style name="ButtonRegister" parent="@style/ButtonDefault">
 		<item name="android:text">@string/registration_button</item>
 	</style>
+	
+	<!-- Submit Profile -->
+	<style name="SubmitButton" parent="@style/ButtonDefault">
+		<item name="android:text">@string/submit_button</item>
+	</style>
 
 </resources>
