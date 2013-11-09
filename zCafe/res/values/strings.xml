@@ -45,6 +45,7 @@
 	<string name="order_post_url">/orders.json</string>
 	<string name="order_status_get_url">/orders</string>
 	<string name="cancel_order_url">/cancelOrder.json</string>
+	<string name="upload_profile_image">/profileImage/</string>
 	<!-- Url related strings -->
 	<string name="referer">Referer</string>
 	<string name="title_activity_registration">Registration</string>
