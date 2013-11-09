@@ -76,6 +76,11 @@
    
 	<!-- MODIFICATION REQUIRED - Replace "com.urbanairship.push.sample.MyApplication" with your package name -->
 
+	<!-- Accessing camera hardware -->
+    <uses-feature android:name="android.hardware.camera" />
+ 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
 	<application
 		android:name="com.zynga.zcafe.CafeApplication"
 		android:allowBackup="true"
