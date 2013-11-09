@@ -141,8 +141,7 @@ public class RegistrationFragment extends Fragment {
       public void onClick(View v) {
         Profile profile = createAndStoreProfile();
         if (profile != null) {
-          if (!(profile.getUaId().isEmpty() || profile.getUdId().isEmpty() || profile.getName()
-              .isEmpty())) {
+          if (!((profile.getUaId() == null || profile.getUaId().isEmpty()) || (profile.getUdId() == null || profile.getUdId().isEmpty()) || profile.getName().isEmpty())) {
             registerUser();
           }
         }
@@ -159,6 +158,7 @@ public class RegistrationFragment extends Fragment {
   }
 
   private void registerUser() {
+	  System.out.println("registering");
     Profile profile = app.getProfile();
     StringEntity entity = null;
     try {
