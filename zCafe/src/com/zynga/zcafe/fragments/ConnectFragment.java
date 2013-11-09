@@ -136,8 +136,9 @@ public class ConnectFragment extends BaseListFragment {
   }
 
   private void getMessages() {
+	Profile profile = CafeApplication.getInstance().getProfile();
     String url = getView().getResources().getString(R.string.api_url)
-        + getView().getResources().getString(R.string.test_connects_get_url);
+        + getView().getResources().getString(R.string.connects_get_url) + "/" + profile.getUdId();
     service.getMessages(url);
   }
 
@@ -159,12 +160,13 @@ public class ConnectFragment extends BaseListFragment {
     ArrayList<Message> messages = Message.fromJson(array);
     adapter.push(messages);
     adapter.notifyDataSetChanged();
+    lvItems.setSelection(adapter.getCount() - 1);
   }
 
   @Subscribe
   public void postMessageEvent(PostMessageEvent event) {
     if (event.getStatus() == 0) {
-      Log.i("POST MESSAGE", "SUCCESS");
+      getMessages();
     }
   }
 

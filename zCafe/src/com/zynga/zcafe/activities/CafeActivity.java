@@ -60,7 +60,7 @@ public class CafeActivity extends FragmentActivity {
 
     Tab tabMenu = actionBar
         .newTab()
-        .setText(R.string.menu)
+        .setIcon(R.drawable.ic_coffee)
         .setTag(getString(R.string.menu_fragment))
         .setTabListener(
             new FragmentTabListener<MenuListFragment>(this, getString(R.string.menu_fragment),
@@ -68,7 +68,7 @@ public class CafeActivity extends FragmentActivity {
  
     Tab tabStatus = actionBar
         .newTab()
-        .setText(R.string.status)
+        .setIcon(R.drawable.ic_dashboard)
         .setTag(getString(R.string.status_fragment))
         .setTabListener(
             new FragmentTabListener<StatusListFragment>(this, getString(R.string.status_fragment),
@@ -76,7 +76,7 @@ public class CafeActivity extends FragmentActivity {
       
     Tab tabFav = actionBar
         .newTab()
-        .setText(R.string.favorite)
+        .setIcon(R.drawable.ic_heart_on)
         .setTag(getString(R.string.favorite_fragment))
         .setTabListener(
             new FragmentTabListener<FavoriteListFragment>(this,
@@ -84,7 +84,7 @@ public class CafeActivity extends FragmentActivity {
 
     Tab tabConnect = actionBar
         .newTab()
-        .setText(R.string.connect)
+        .setIcon(R.drawable.ic_new_group)
         .setTag(getString(R.string.connect_fragment))
         .setTabListener(
             new FragmentTabListener<ConnectFragment>(this, getString(R.string.connect_fragment),

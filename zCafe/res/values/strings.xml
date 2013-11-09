@@ -39,8 +39,8 @@
 	<string name="api_url">https://yipbb.corp.zynga.com/zcafe-api</string>
 	<string name="menu_get_url">/menu</string>
 	<string name="test_connects_get_url">/connects/test</string>
-	<string name="connects_get_url">/connects/{udid}</string>
-	<string name="connects_post_url">/connects</string>
+	<string name="connects_get_url">/connects</string>
+	<string name="connects_post_url">/connects.json</string>
 	<string name="register_post_url">/register.json</string>
 	<string name="order_post_url">/orders.json</string>
 	<string name="order_status_get_url">/orders</string>
