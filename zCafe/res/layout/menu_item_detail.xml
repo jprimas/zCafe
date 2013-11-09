@@ -46,7 +46,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/states_register_button"
+            android:background="@drawable/states_button"
             android:paddingTop="7dp"
             android:text="ORDER"
             android:textColor="@color/red"

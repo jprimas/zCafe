@@ -70,7 +70,7 @@
 	    android:layout_below="@+id/tvOrderFormNoteLabel"
 	    android:layout_centerHorizontal="true"
 	    android:layout_marginTop="10dp"
-	    android:background="@drawable/states_register_button"
+	    android:background="@drawable/states_button"
 	    android:paddingTop="5dp"
 	    android:text="CONFIRM"
 	    android:textColor="@color/red"

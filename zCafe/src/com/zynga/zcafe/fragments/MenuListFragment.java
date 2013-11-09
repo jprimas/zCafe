@@ -66,12 +66,12 @@ public class MenuListFragment extends BaseListFragment {
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    MenuAdapter.isLoading = 0;
   }
 
   @Override
   public void onResume() {
     super.onResume();
-    MenuAdapter.isLoading = 0;
     Log.i(this.toString(), "RESUME");
     bus.register(this);
     String menuUrl = app.getResources().getString(R.string.api_url)
@@ -85,7 +85,7 @@ public class MenuListFragment extends BaseListFragment {
     Log.i(this.toString(), "PAUSE1");
     bus.unregister(this);
   }
-
+  
   protected void getMenu(String url) {
     CafeService service = CafeApplication.getObjectGraph().get(CafeService.class);
     service.getMenu(url);
