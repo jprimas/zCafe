@@ -1,185 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.zynga.zcafe"
-	android:versionCode="1"
-	android:versionName="1.0" >
+    package="com.zynga.zcafe"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-	<uses-sdk
-		android:minSdkVersion="11"
-		android:targetSdkVersion="19" />
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="19" />
 
-	<uses-permission
-		android:name="android.permission.INTERNET" />
-	<uses-permission
-		android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    
-	<!-- REQUIRED PERMISSIONS (for Urban Airship GCM) -->
+    <!-- REQUIRED PERMISSIONS (for Urban Airship GCM) -->
    
-	<uses-permission
-		android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
    
-	<uses-permission
-		android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    
-	<uses-permission
-		android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
    
    
-	<!-- GCM requires a Google account. -->
+    <!-- GCM requires a Google account. -->
    
-	<uses-permission
-		android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
    
-	<!-- Keeps the processor from sleeping when a message is received. -->
+    <!-- Keeps the processor from sleeping when a message is received. -->
    
-	<uses-permission
-		android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
    
    
-	<!-- This app has permission to register with GCM and receive message -->
+    <!-- This app has permission to register with GCM and receive message -->
    
-	<uses-permission
-		android:name="com.google.android.c2dm.permission.RECEIVE" />
-   
-   
-	<!-- MODIFICATION REQUIRED - Replace "com.urbanairship.push.sample" with your package name -->
-   
-	<permission
-		android:name="com.zynga.zcafe.permission.C2D_MESSAGE"
-		android:protectionLevel="signature" />
-   
-	<uses-permission
-		android:name="com.zynga.zcafe.permission.C2D_MESSAGE" />
-   
-	<!-- The two elements above ensure that only this application can receive the messages and registration result -->
-   
-	<!-- END Urban Airship Required Permissions -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
    
    
-	<!-- OPTIONAL Urban Airship Settings -->
+    <!-- MODIFICATION REQUIRED - Replace "com.urbanairship.push.sample" with your package name -->
    
-	<!-- REQUIRED FOR LOCATION -->
+    <permission
+        android:name="com.zynga.zcafe.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
    
-	<!-- Use ACCESS_COARSE_LOCATION if GPS access is not necessary -->
+    <uses-permission android:name="com.zynga.zcafe.permission.C2D_MESSAGE" />
    
-	<!-- uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" / -->
+    <!-- The two elements above ensure that only this application can receive the messages and registration result -->
    
-	<uses-permission
-		android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- END Urban Airship Required Permissions -->
    
    
-	<!-- OPTIONAL - This permission is only necessary if your app has multiple processes -->
+    <!-- OPTIONAL Urban Airship Settings -->
    
-	<!-- <uses-permission android:name="android.permission.BROADCAST_STICKY" /> -->
+    <!-- REQUIRED FOR LOCATION -->
    
-	<!-- END OPTIONAL Urban Airship Settings -->
+    <!-- Use ACCESS_COARSE_LOCATION if GPS access is not necessary -->
    
-	<!-- MODIFICATION REQUIRED - Replace "com.urbanairship.push.sample.MyApplication" with your package name -->
+    <!-- uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" / -->
+   
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+   
+   
+    <!-- OPTIONAL - This permission is only necessary if your app has multiple processes -->
+   
+    <!-- <uses-permission android:name="android.permission.BROADCAST_STICKY" /> -->
+   
+    <!-- END OPTIONAL Urban Airship Settings -->
+   
+    <!-- MODIFICATION REQUIRED - Replace "com.urbanairship.push.sample.MyApplication" with your package name -->
 
-	<application
-		android:name="com.zynga.zcafe.CafeApplication"
-		android:allowBackup="true"
-		android:allowClearUserData="true"
-		android:enabled="true"
-		android:icon="@drawable/ic_launcher"
-		android:label="ZCafe"
-		android:theme="@style/AppTheme" >
-		<activity
-			android:name="com.zynga.zcafe.activities.CafeActivity"
-			android:label="@string/app_name"
-			android:windowSoftInputMode="adjustResize|stateHidden" >
-			<intent-filter>
-				<action
-					android:name="android.intent.action.MAIN" />
 
-				<category
-					android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+    <!-- Accessing camera hardware -->
+    <uses-feature android:name="android.hardware.camera" />
 
-		<!--
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="com.zynga.zcafe.CafeApplication"
+        android:allowBackup="true"
+        android:allowClearUserData="true"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="ZCafe"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.zynga.zcafe.activities.CafeActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
    <activity android:name="com.urbanairship.push.sample.PushPreferencesActivity" />
         <activity android:name="com.zynga.zcafe.LocationActivity" />
-		-->
+        -->
    
-		<!-- REQUIRED for Urban Airship GCM -->
-		<receiver
-			android:name="com.urbanairship.CoreReceiver" />
-		<receiver
-			android:name="com.urbanairship.push.GCMPushReceiver"
-			android:permission="com.google.android.c2dm.permission.SEND" >
-			<intent-filter>
-				<action
-					android:name="com.google.android.c2dm.intent.RECEIVE" />
-				<action
-					android:name="com.google.android.c2dm.intent.REGISTRATION" />
+        <!-- REQUIRED for Urban Airship GCM -->
+        <receiver android:name="com.urbanairship.CoreReceiver" />
+        <receiver
+            android:name="com.urbanairship.push.GCMPushReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
         
-				<!-- MODIFICATION REQUIRED - Use your package name as the category -->
-				<category
-					android:name="com.zynga.zcafe" />
-			</intent-filter>
+                <!-- MODIFICATION REQUIRED - Use your package name as the category -->
+                <category android:name="com.zynga.zcafe" />
+            </intent-filter>
         
-			<!-- REQUIRED for detecting when the application is upgraded so it can request a new GCM ID -->
+            <!-- REQUIRED for detecting when the application is upgraded so it can request a new GCM ID -->
         
-			<intent-filter>
+            <intent-filter>
         
-				<action
-					android:name="android.intent.action.PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
         
-				<data
-					android:scheme="package" />
+                <data android:scheme="package" />
         
-			</intent-filter>
+            </intent-filter>
         
-		</receiver>
+        </receiver>
         
         
-		<service
-			android:name="com.urbanairship.push.PushService"
-			android:label="Push Notification Service" />
+        <service
+            android:name="com.urbanairship.push.PushService"
+            android:label="Push Notification Service" />
         
-		<!-- REQUIRED only with UA Android lib version 2.1.4 and earlier. Do not include PushWorkerService with UA Android lib version 3.0.0+ since it has been deprecated -->
+        <!-- REQUIRED only with UA Android lib version 2.1.4 and earlier. Do not include PushWorkerService with UA Android lib version 3.0.0+ since it has been deprecated -->
         
-		<service
-			android:name="com.urbanairship.push.PushWorkerService"
-			android:label="Push Notification Worker Service" />
+        <service
+            android:name="com.urbanairship.push.PushWorkerService"
+            android:label="Push Notification Worker Service" />
         
-		<service
-			android:name="com.urbanairship.analytics.EventService"
-			android:label="Event Service" />
-        
-        
-		<!-- This is required for persisting preferences related to push and location -->
-        
-		<!-- MODIFICATION REQUIRED - Use your package name + ".urbanairship.provider" in the android:authorities -->
-        
-		<provider
-			android:name="com.urbanairship.UrbanAirshipProvider"
-			android:authorities="com.zynga.zcafe.urbanairship.provider"
-			android:exported="false"
-			android:multiprocess="true" />
-        
-		<!-- END OF REQUIRED ITEMS -->
+        <service
+            android:name="com.urbanairship.analytics.EventService"
+            android:label="Event Service" />
         
         
-		<!-- OPTIONAL (for segments support) -->
+        <!-- This is required for persisting preferences related to push and location -->
         
-		<service
-			android:name="com.urbanairship.location.LocationService"
-			android:label="Segments Service" />
+        <!-- MODIFICATION REQUIRED - Use your package name + ".urbanairship.provider" in the android:authorities -->
+        
+        <provider
+            android:name="com.urbanairship.UrbanAirshipProvider"
+            android:authorities="com.zynga.zcafe.urbanairship.provider"
+            android:exported="false"
+            android:multiprocess="true" />
+        
+        <!-- END OF REQUIRED ITEMS -->
         
         
-		<!-- OPTIONAL, if you want to receive push, push opened and registration completed intents -->
+        <!-- OPTIONAL (for segments support) -->
         
-		<!-- Replace the receiver below with your package and class name -->
+        <service
+            android:name="com.urbanairship.location.LocationService"
+            android:label="Segments Service" />
         
-		<receiver
-			android:name="com.zynga.zcafe.IntentReceiver" />
+        
+        <!-- OPTIONAL, if you want to receive push, push opened and registration completed intents -->
+        
+        <!-- Replace the receiver below with your package and class name -->
+        
+        <receiver android:name="com.zynga.zcafe.IntentReceiver" />
 
-		<activity
-			android:name="com.zynga.zcafe.activities.RegistrationActivity"
-			android:label="@string/title_activity_registration" >
-		</activity>
-	</application>
+        <activity
+            android:name="com.zynga.zcafe.activities.RegistrationActivity"
+            android:label="@string/title_activity_registration" >
+        </activity>
+        <activity
+            android:name="com.zynga.zcafe.activities.ProfileActivity"
+            android:label="@string/title_activity_profile" >
+        </activity>
+    </application>
 
 </manifest>

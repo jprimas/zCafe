@@ -53,5 +53,60 @@
 	<string name="warning_registration_empty_uaid">Please retry registration in a few seconds when you\'re ID is ready.</string>
 	<!-- Configs -->
 	<string name="registration_device">android</string>
+    <string name="app_name">zCafe</string>
+    <string name="action_settings">Settings</string>
+    <string name="name">"Name: "</string>
+    <string name="registerButton">Register</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_cafe">CafeActivity</string>
+    <!-- Style related strings -->
+    <string name="content_description">Image Button</string>
+    <!-- Widget related strings -->
+    <string name="menu">Menu</string>
+    <string name="connect">Connect</string>
+    <string name="orders">Orders</string>
+    <string name="status">Status</string>
+    <string name="order">Order</string>
+    <string name="favorite">Favorite</string>
+    <string name="registration">Registration</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="order_submit_success">Your order has been submitted.</string>
+    <string name="order_submit_failure">Your order did not go through.</string>
+    <string name="order_cancel_success">Your order has been cancelled.</string>
+    <string name="order_cancel_failure">Failure to cancel your order.</string>
+    <string name="registration_success">You have been registered.</string>
+    <string name="registration_failure">Your registration failed.</string>
+    <string name="registration_button">Register</string>
+    <!-- Tags -->
+    <string name="menu_fragment">MenuListFragment</string>
+    <string name="connect_fragment">ConnectFragment</string>
+    <string name="status_fragment">StatusListFragment</string>
+    <string name="favorite_fragment">FavoriteLIstFragment</string>
+    <string name="registration_fragment">RegisterationFragment</string>
+    <string name="order_form_fragment">OrderFormFragment</string>
+    <string name="order_confirmation_form">OrderConfirmationForm</string>
+    <!-- Urls -->
+    <string name="zynga_url">http://www.zynga.com</string>
+    <string name="api_url">https://yipbb.corp.zynga.com/zcafe-api</string>
+    <string name="menu_get_url">/menu</string>
+    <string name="test_connects_get_url">/connects/test</string>
+    <string name="connects_get_url">/connects</string>
+    <string name="connects_post_url">/connects.json</string>
+    <string name="register_post_url">/register.json</string>
+    <string name="order_post_url">/orders.json</string>
+    <string name="order_status_get_url">/orders</string>
+    <string name="cancel_order_url">/cancelOrder.json</string>
+    <string name="upload_profile_image">/profileImage/</string>
+    <!-- Url related strings -->
+    <string name="referer">Referer</string>
+    <string name="title_activity_registration">Registration</string>
+    <!-- Warnings -->
+    <string name="warning_registration_empty_name">Warning: Full name field can\'t be empty!</string>
+    <string name="warning_registration_empty_uaid">Please retry registration in a few seconds when you\'re ID is ready.</string>
+    <!-- Configs -->
+    <string name="registration_device">android</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

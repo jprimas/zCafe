@@ -96,7 +96,11 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
     holder.tvOrderStatusNumber.setText(item.getOrderId());
     holder.tvOrderStatus.setText(item.getStatus());
     holder.tvOrderStatusUserName.setText(item.getUserName());
-    holder.tvOrderStatusQueueCount.setText(item.getQueueCount());
+    if(item.getQueueCount().equals("null")){
+    	holder.tvOrderStatusQueueCount.setText("0");
+    }else{
+    	holder.tvOrderStatusQueueCount.setText(item.getQueueCount());
+    }
     holder.tvOrderStatusOrderDate.setText(item.getOrderDate());
     Log.i("ITEM_STATUS", item.getStatus());
     if (item.getStatus().equals("Pending")) {
