@@ -247,14 +247,17 @@ public class ProfileActivity extends FragmentActivity {
 	            
 	          }
 	          
+	          SharedPreferences configs = app.getConfigs();
+	          SharedPreferences.Editor editor = configs.edit();
+	          
+	          String udid = configs.getString("udid", "");
 	          String url = getResources().getString(R.string.api_url)
-	                  + getResources().getString(R.string.upload_profile_image)+"/test.json";
+	                  + getResources().getString(R.string.upload_profile_image)+"/"+udid+".json";
 	          
 	          Log.i("upload image", url);
 	          service.uploadProfilePic(params, url, null);
 	       
-	          SharedPreferences configs = app.getConfigs();
-	          SharedPreferences.Editor editor = configs.edit();
+	          
 	          
 	          editor.putString("profilePath", fileUri.getPath());
 	          

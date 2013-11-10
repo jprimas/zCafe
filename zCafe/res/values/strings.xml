@@ -55,5 +55,5 @@
     <string name="warning_registration_empty_uaid">Please retry registration in a few seconds when you\'re ID is ready.</string>
     <!-- Configs -->
     <string name="registration_device">android</string>
-    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_profile">zCafe User Profile</string>
 </resources>

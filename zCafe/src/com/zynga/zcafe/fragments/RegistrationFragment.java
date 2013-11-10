@@ -329,14 +329,18 @@ public class RegistrationFragment extends Fragment {
             
           }
           
+          SharedPreferences configs = app.getConfigs();
+          SharedPreferences.Editor editor = configs.edit();
+          String udid = configs.getString("udid", "");
+          if (udid.isEmpty()) {
+              udid = Secure.getString(getView().getContext().getContentResolver(), Secure.ANDROID_ID);
+          }
           String url = getView().getResources().getString(R.string.api_url)
-                  + getView().getResources().getString(R.string.upload_profile_image)+"/test.json";
+                  + getView().getResources().getString(R.string.upload_profile_image)+"/"+udid+".json";
           
           Log.i("upload image", url);
           service.uploadProfilePic(params, url, null);
        
-          SharedPreferences configs = app.getConfigs();
-          SharedPreferences.Editor editor = configs.edit();
           
           editor.putString("profilePath", fileUri.getPath());
           
