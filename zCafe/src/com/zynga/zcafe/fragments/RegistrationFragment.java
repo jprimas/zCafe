@@ -1,11 +1,6 @@
 package com.zynga.zcafe.fragments;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -17,12 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.provider.Settings.Secure;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -33,10 +23,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.loopj.android.http.RequestParams;
 import com.squareup.otto.Subscribe;
 import com.urbanairship.UAirship;
 import com.urbanairship.push.PushManager;
@@ -63,13 +51,6 @@ public class RegistrationFragment extends Fragment {
 
   EditText etFullName;
   Button bRegister;
-
-  private ImageView ivCamera;
-  public static final int MEDIA_TYPE_IMAGE = 1;
-  private Uri fileUri;
-  private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-  private ImageView ivProfile;
-  private static final String IMAGE_DIRECTORY_NAME = "zCAFE";
 
   public RegistrationFragment() {
     super();
@@ -130,9 +111,6 @@ public class RegistrationFragment extends Fragment {
   private void init() {
     etFullName = (EditText) getView().findViewById(R.id.etFullName);
     bRegister = (Button) getView().findViewById(R.id.bRegister);
-
-    ivCamera = (ImageView)getView().findViewById(R.id.ivCamera);
-    ivProfile = (ImageView)getView().findViewById(R.id.ivProfile);
   }
 
   private void registerListeners() {
@@ -148,14 +126,6 @@ public class RegistrationFragment extends Fragment {
         }
       }
     });
-
-    ivCamera.setOnClickListener(new OnClickListener() {
-    
-    @Override
-    public void onClick(View v) {
-      captureImage();
-    }
-  });
   }
 
   private void registerUser() {
@@ -258,159 +228,6 @@ public class RegistrationFragment extends Fragment {
     if (event.getStatus() == 0) {
       activity.finish();
     }
-  }
-
-  /*
-   * Capturing Camera Image will lauch camera app requrest image capture
-   */
-  private void captureImage() {
-      Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-   
-      fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-   
-      
-      Toast.makeText(getView().getContext(),
-          fileUri.toString(),
-              Toast.LENGTH_LONG).show();
-      
-      intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-   
-      // start the image capture Intent
-      startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
-  }
-  
-  /**
-   * Receiving activity result method will be called after closing the camera
-   * */
-  @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    Log.d("DEBUG", "On activity result fragment");
-    // if the result is capturing Image
-      if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-          if (resultCode == getActivity().RESULT_OK) {
-              // successfully captured the image
-              // display it in image view
-              previewCapturedImage();
-          } else if (resultCode == getActivity().RESULT_CANCELED) {
-              // user cancelled Image capture
-              Toast.makeText(getActivity().getApplicationContext(),
-                      "User cancelled image capture", Toast.LENGTH_SHORT)
-                      .show();
-          } else {
-              // failed to capture image
-              Toast.makeText(getActivity().getApplicationContext(),
-                      "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                      .show();
-          }
-      }
-  }
-  
-  /*
-   * Display image from a path to ImageView
-   */
-  private void previewCapturedImage() {
-      try {
-          
-        ivProfile.setVisibility(View.VISIBLE);
-
-          // bimatp factory
-          BitmapFactory.Options options = new BitmapFactory.Options();
-
-          // downsizing image as it throws OutOfMemory Exception for larger
-          // images
-          options.inSampleSize = 8;
-
-          final Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(),
-                  options);
-
-          ivProfile.setImageBitmap(bitmap);
-          
-          File myFile = new File(fileUri.getPath());
-          RequestParams params = new RequestParams();
-          try {
-              params.put("file", myFile);
-          } catch(FileNotFoundException e) {
-            
-          }
-          
-          String url = getView().getResources().getString(R.string.api_url)
-                  + getView().getResources().getString(R.string.upload_profile_image)+"/test.json";
-          
-              Log.i("upload image", url);
-              service.uploadProfilePic(params, url, null);
-              
-          //CommonUtil.uploadFile(fileUri.getPath());
-          
-      } catch (NullPointerException e) {
-          e.printStackTrace();
-      }
-  }
-  
-  
-  /**
-   * Here we store the file url as it will be null after returning from camera
-   * app
-   */
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-      super.onSaveInstanceState(outState);
-   
-      // save file url in bundle as it will be null on scren orientation
-      // changes
-      outState.putParcelable("file_uri", fileUri);
-  }
-   
-  /*
-   * Here we restore the fileUri again
-   */
-//  @Override
-//  public void onRestoreInstanceState(Bundle savedInstanceState) {
-//      super.onRestoreInstanceState(savedInstanceState);
-//   
-//      // get the file url
-//      fileUri = savedInstanceState.getParcelable("file_uri");
-//  }
-  
-  /**
-   * Creating file uri to store image/video
-   */
-  public Uri getOutputMediaFileUri(int type) {
-      return Uri.fromFile(getOutputMediaFile(type));
-  }
-   
-  /*
-   * returning image / video
-   */
-  private static File getOutputMediaFile(int type) {
-   
-      // External sdcard location
-      File mediaStorageDir = new File(
-              Environment
-                      .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-              IMAGE_DIRECTORY_NAME);
-   
-      // Create the storage directory if it does not exist
-      if (!mediaStorageDir.exists()) {
-          if (!mediaStorageDir.mkdirs()) {
-              Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
-                      + IMAGE_DIRECTORY_NAME + " directory");
-              return null;
-          }
-      }
-   
-      // Create a media file name
-      String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-              Locale.getDefault()).format(new Date());
-      File mediaFile;
-      if (type == MEDIA_TYPE_IMAGE) {
-          mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                  + "IMG_" + timeStamp + ".jpg");
-      } else {
-          return null;
-      }
-   
-      return mediaFile;
   }
 
 }

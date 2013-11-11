@@ -129,7 +129,7 @@ public class OrderFormFragment extends Fragment {
   @Override
   public void onResume() {
     super.onResume();
-    // Log.i(this.toString(), "RESUME");
+    Log.i(this.toString(), "RESUME");
     bus.register(this);
   }
 
@@ -141,8 +141,8 @@ public class OrderFormFragment extends Fragment {
   }
 
   @Subscribe
-  public void onMenuItemPost(MenuItem item) {
-    Log.i(this.toString(), "MENU_ITEM");
+  public void onMenuItemDetailUpdated(MenuItem item) {
+    Log.i(this.toString(), "MENU_ITEM_DETAIL");
     this.menuItem = item;
     tvOrderFormTitle.setText(item.getTitle());
     ImageLoader.getInstance().displayImage(item.getImageUrl(), ivOrderFormPhoto);

@@ -1,21 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical" >
+	android:layout_height="match_parent" >
 
-	<include
-		android:id="@+id/connect_chat_list"
+	<ListView
+		android:id="@+id/lvFragmentItemsList"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_weight="5"
-		layout="@layout/fragment_items_list" />
+		android:layout_above="@+id/rlConnectLayout"
+		android:layout_alignParentTop="true"
+		android:divider="@null"
+		android:dividerHeight="0dp" />
 
-	<include
-		android:id="@+id/connect_send"
+	<RelativeLayout
+		android:id="@+id/rlConnectLayout"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_weight="1"
-		layout="@layout/connect_send" />
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_marginBottom="10dp"
+		android:layout_marginTop="10dp"
+		android:background="@drawable/connect_send"
+		android:gravity="bottom" >
 
-</LinearLayout>
+		<com.zynga.zcafe.views.PopupEditText
+			android:id="@+id/etConnectChatField"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_toLeftOf="@+id/bConnectSend"
+			android:inputType="textMultiLine"
+			android:maxLines="1" >
+
+			<requestFocus />
+		</com.zynga.zcafe.views.PopupEditText>
+
+		<Button
+			android:id="@+id/bConnectSend"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:text="Send" />
+	</RelativeLayout>
+
+</RelativeLayout>

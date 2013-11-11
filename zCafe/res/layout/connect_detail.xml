@@ -6,14 +6,19 @@
 
 	<ImageView
 		android:id="@+id/ivConnectDetailPhotoUrl"
-		android:layout_width="70dp"
-		android:layout_height="70dp"
-		android:src="@drawable/background" />
+		android:layout_width="60dp"
+		android:layout_height="60dp"
+		android:layout_alignParentLeft="true"
+		android:adjustViewBounds="true"
+		android:gravity="center" />
 
 	<LinearLayout
+		android:id="@+id/llConnectDetailLayout"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginRight="115dp"
+		android:layout_marginLeft="15dp"
+		android:layout_toRightOf="@+id/ivConnectDetailPhotoUrl"
+		android:background="@drawable/connect_list_msg"
 		android:orientation="vertical" >
 
 		<TextView

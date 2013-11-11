@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.squareup.otto.Produce;
 import com.zynga.zcafe.CafeApplication;
@@ -95,7 +94,7 @@ public class CafeActivity extends FragmentActivity {
     actionBar.addTab(tabStatus);
     actionBar.addTab(tabFav);
     actionBar.addTab(tabConnect);
-    actionBar.selectTab(tabMenu);
+    actionBar.selectTab(tabConnect);
     bus.post(tabMenu);
   }
 
@@ -135,10 +134,5 @@ public class CafeActivity extends FragmentActivity {
   @Produce
   public Tab getSelectedTab() {
     return getActionBar().getSelectedTab();
-  }
-  
-  public void onProfileView(MenuItem mi) {
-		Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-		startActivity(intent);
   }
 }

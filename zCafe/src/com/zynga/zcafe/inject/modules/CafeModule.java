@@ -15,6 +15,7 @@ import com.zynga.zcafe.activities.CafeActivity;
 import com.zynga.zcafe.activities.RegistrationActivity;
 import com.zynga.zcafe.adapters.ConnectAdapter;
 import com.zynga.zcafe.adapters.MenuAdapter;
+import com.zynga.zcafe.adapters.PopupEditTextAdapter;
 import com.zynga.zcafe.adapters.StatusAdapter;
 import com.zynga.zcafe.events.Producers;
 import com.zynga.zcafe.fragments.BaseListFragment;
@@ -33,14 +34,14 @@ import dagger.Provides;
 
 // Modules for @Inject
 
-@Module(injects = { CafeService.class, CafeApplication.class, CafeActivity.class,
-    RegistrationActivity.class,
- BaseListFragment.class, OrderFormFragment.class,
-    FavoriteListFragment.class, MenuListFragment.class, StatusListFragment.class,
-    ConnectFragment.class, Producers.class,
- MenuAdapter.class, FragmentTabListener.class,
-    StatusAdapter.class, ConnectAdapter.class, RegistrationFragment.class,
-    MainThreadBus.class
+@Module(
+    injects = {
+        CafeService.class, CafeApplication.class, CafeActivity.class, RegistrationActivity.class,
+        BaseListFragment.class, OrderFormFragment.class, FavoriteListFragment.class,
+        MenuListFragment.class, StatusListFragment.class, ConnectFragment.class, Producers.class,
+        PopupEditTextAdapter.class, MenuAdapter.class, FragmentTabListener.class,
+        StatusAdapter.class, ConnectAdapter.class,
+        RegistrationFragment.class, MainThreadBus.class
  })
 public class CafeModule {
 
@@ -55,6 +56,7 @@ public class CafeModule {
   CafeApplication provideApplication() {
     return this.app;
   }
+  
 
   @Provides
   InputMethodManager provideImm() {

@@ -45,7 +45,7 @@ public class MenuListFragment extends BaseListFragment {
   protected void init() {
     ArrayList<MenuItem> items = new ArrayList<MenuItem>();
     FragmentManager manager = this.activity.getSupportFragmentManager();
-    adapter = new MenuAdapter(this, manager, app.getApplicationContext(), items);
+    adapter = new MenuAdapter(this, manager, getView().getContext(), items);
     lvItems = (ListView) getView().findViewById(R.id.lvFragmentItemsList);
     lvItems.setAdapter(adapter);
     lvItems.setClickable(false);
@@ -94,7 +94,7 @@ public class MenuListFragment extends BaseListFragment {
   @Subscribe
   public void onMenuUpdated(MenuEvent event) {
     Log.i("MENUEVENT1-CODE", String.valueOf(event.getStatus()));
-    Log.i("MENUEVENT1-RESPONS1E", event.getResponse());
+    //Log.i("MENUEVENT1-RESPONS1E", event.getResponse());
     adapter.clear();
     JSONArray array = new JSONArray();
     try {

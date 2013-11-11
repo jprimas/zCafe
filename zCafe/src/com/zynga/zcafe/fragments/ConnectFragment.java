@@ -68,7 +68,6 @@ public class ConnectFragment extends BaseListFragment {
 
   private void registerListeners() {
     bSend.setOnClickListener(new OnClickListener() {
-
       @Override
       public void onClick(View v) {
         if (etMessage.getText().toString().isEmpty()) {
@@ -79,6 +78,7 @@ public class ConnectFragment extends BaseListFragment {
         String url = getResources().getString(R.string.api_url)
             + getResources().getString(R.string.connects_post_url);
         service.postMessage(v.getContext(), url, entity);
+        etMessage.setText("");
       }
 
     });

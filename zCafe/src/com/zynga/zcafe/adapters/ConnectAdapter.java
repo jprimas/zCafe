@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +23,7 @@ import com.zynga.zcafe.services.CafeService;
 
 public class ConnectAdapter extends ArrayAdapter<Message> {
 
-  @Inject
-  MainThreadBus bus;
-
-  @Inject
-  CafeService service;
-
   Context context;
-  FragmentManager fragmentManager;
-  Fragment fragment;
 
   public ConnectAdapter(Fragment fragment, FragmentManager fragmentManager, Context context,
       ArrayList<Message> items) {
@@ -62,7 +55,7 @@ public class ConnectAdapter extends ArrayAdapter<Message> {
     }
 
     final Message message = getItem(position);
-    ImageLoader.getInstance().displayImage("", holder.ivPhotoUrl);
+    ImageLoader.getInstance().displayImage(message.getPhotoUrl(), holder.ivPhotoUrl);
     holder.tvMessage.setText(message.getMessage());
     holder.tvName.setText(message.getName());
     holder.tvDate.setText(message.getDate());

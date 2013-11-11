@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.urbanairship.AirshipConfigOptions;
 import com.urbanairship.UAirship;
 import com.urbanairship.push.PushManager;
@@ -53,7 +54,7 @@ public class CafeApplication extends Application {
     // Creates global configuration and initialize ImageLoader with this
     // configuration.
     DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory()
-        .cacheOnDisc().build();
+        .cacheOnDisc().displayer(new RoundedBitmapDisplayer(50)).build();
     ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
         .defaultDisplayImageOptions(defaultOptions).build();
     ImageLoader.getInstance().init(config);

@@ -4,6 +4,7 @@ import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -69,9 +70,8 @@ public class MenuAdapter extends ArrayAdapter<MenuItem> {
 			@Override
 			public void onClick(View v) {
 				FragmentTransaction ft = fragmentManager.beginTransaction();
-				ft.detach(fragment);
 				ft.replace(R.id.flFragmentContainer, new OrderFormFragment(),
-						String.valueOf(R.string.order_form_fragment));
+						v.getResources().getString(R.string.order_form_fragment));
 				ft.commit();
 				MenuItem menuItem = getItem(position);
 				CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);

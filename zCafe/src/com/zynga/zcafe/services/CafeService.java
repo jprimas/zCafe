@@ -43,17 +43,16 @@ public class CafeService {
     JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
       @Override
       public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        Log.i("GET MENU1", "SUCCESS");
+        Log.i("GET MESSAGE", new String(responseBody));
         GetMessagesEvent event = new GetMessagesEvent(0, new String(responseBody));
         bus.post(event);
       }
 
       @Override
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        // String response = new String(responseBody);
         CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
         Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-        Log.d("GET MENU1 ERROR", error.getMessage());
+        Log.d("GET MESSAGE ERROR", error.getMessage());
       }
     };
     Log.i("GET MESSAGES URL", url);
@@ -182,8 +181,8 @@ public class CafeService {
     JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
       @Override
       public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        // tlee: this doesn't get called at all on a successful post.
-        // bus.post(items);
+    	Log.i("POST-ORDER-SUCCESS", new String(responseBody));
+        //bus.post(items);
         CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
         String msg = app.getContext().getResources().getString(R.string.order_submit_success);
         Toast.makeText(app.getContext(), msg, Toast.LENGTH_LONG).show();
@@ -217,7 +216,7 @@ public class CafeService {
 
       @Override
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        Log.i("FAIL TO CANCEL", "ORDER");
+        //Log.i("FAIL TO CANCEL", "ORDER");
       }
     };
     client.put(context, url, entity, "application/json", handler);
@@ -227,7 +226,7 @@ public class CafeService {
     JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
       @Override
       public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        Log.d("SUCCESS MENU", "ITEMS");
+        Log.d("SUCCESS GET-MENU", "ITEMS");
         // bus.post(items);
       }
 
@@ -292,24 +291,5 @@ public class CafeService {
     return client;
   }
 
-  public void uploadProfilePic(RequestParams params, String url, HttpEntity entity) {
-      JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-          String response = new String(responseBody);
-          Log.i("SUCCESS", response);
-          
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-          Log.i("FAILURE", ""+statusCode);
-        }
-
-      };
-
-      client.post(url, params, handler);
-  }
 
 }

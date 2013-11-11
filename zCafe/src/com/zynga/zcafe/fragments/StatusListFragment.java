@@ -119,8 +119,5 @@ public class StatusListFragment extends BaseListFragment {
 	      tvLoading.setVisibility(ProgressBar.INVISIBLE);
       }
     }
-
   }
-
-
 }
