@@ -53,6 +53,7 @@
 	<string name="referer">Referer</string>
 	<string name="title_activity_registration">Registration</string>
 	<!-- Warnings -->
+	<string name="no_network">Check network connection before registering.</string>
 	<string name="warning_registration_empty_name">Warning: Full name field can\'t be empty!</string>
 	<string name="warning_registration_empty_uaid">Please retry registration in a few seconds when you\'re ID is ready.</string>
 	<!-- Configs -->

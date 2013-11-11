@@ -98,7 +98,8 @@ public class RegistrationFragment extends Fragment {
   private BroadcastReceiver apidUpdateReceiver = new BroadcastReceiver() {
     @Override
     public void onReceive(Context context, Intent intent) {
-      registerUser();
+      //registerUser();
+      createAndStoreProfile();
     }
   };
 
@@ -120,17 +121,13 @@ public class RegistrationFragment extends Fragment {
       public void onClick(View v) {
         Profile profile = createAndStoreProfile();
         if (profile != null) {
-          if (!(profile.getUaId().isEmpty() || profile.getUdId().isEmpty() || profile.getName()
-              .isEmpty())) {
-            registerUser();
-          }
+          registerUser(profile);
         }
       }
     });
   }
 
-  private void registerUser() {
-    Profile profile = createAndStoreProfile();
+  private void registerUser(Profile profile) {
     Log.i("PROFILE NAME", profile.getName());
     Log.i("PROFILE UADI", profile.getUaId());
     Log.i("PROFILE UDID", profile.getUdId());
@@ -172,7 +169,14 @@ public class RegistrationFragment extends Fragment {
     editor.putString("udid", udid);
 
     String uaid = PushManager.shared().getAPID();
+    if (uaid == null) {
+      Log.i("CHECK UAID", "NULL");
+      String msg = getResources().getString(R.string.no_network);
+      Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+      uaid = "xxx";
+    }
     editor.putString("uaid", uaid);
+
     // Log.i("UAID", uaid);
 
     // uaid
