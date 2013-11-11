@@ -26,6 +26,7 @@
 	<string name="registration_success">You have been registered.</string>
 	<string name="registration_failure">Your registration failed.</string>
 	<string name="registration_button">Register</string>
+	<string name="submit_button">Submit</string>
 	<!-- Tags -->
 	<string name="menu_fragment">MenuListFragment</string>
 	<string name="connect_fragment">ConnectFragment</string>
