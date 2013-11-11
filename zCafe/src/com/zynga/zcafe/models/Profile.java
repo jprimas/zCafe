@@ -18,7 +18,7 @@ public class Profile {
   private Profile() {
   }
 
-  private Profile(String userId, String name, String udid, String uaid, String device) {
+  public Profile(String userId, String name, String udid, String uaid, String device) {
     this.userId = userId;
     this.name = name;
     this.udid = udid;

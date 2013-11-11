@@ -3,7 +3,7 @@ package com.zynga.zcafe.events;
 import android.util.SparseArray;
 import android.view.View;
 
-public class ClickCancelOrderEvent {
+public class ClickCancelOrderEvent extends Event{
   
   private SparseArray<View> viewCache;
 
