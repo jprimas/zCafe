@@ -18,19 +18,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.squareup.otto.Subscribe;
 import com.zynga.zcafe.CafeApplication;
 import com.zynga.zcafe.R;
 import com.zynga.zcafe.adapters.ConnectAdapter;
+import com.zynga.zcafe.adapters.PopupEditTextAdapter;
 import com.zynga.zcafe.events.GetMessagesEvent;
 import com.zynga.zcafe.events.PostMessageEvent;
 import com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus;
+import com.zynga.zcafe.models.Friend;
 import com.zynga.zcafe.models.Message;
 import com.zynga.zcafe.models.Profile;
 import com.zynga.zcafe.services.CafeService;
+import com.zynga.zcafe.views.PopupEditText;
 
 public class ConnectFragment extends BaseListFragment {
 
@@ -44,8 +46,9 @@ public class ConnectFragment extends BaseListFragment {
   CafeService service;
 
   ConnectAdapter adapter;
+  PopupEditTextAdapter popupAdapter;
   ListView lvItems;
-  EditText etMessage;
+  PopupEditText etMessage;
   Button bSend;
 
   @Inject
@@ -58,12 +61,21 @@ public class ConnectFragment extends BaseListFragment {
     ArrayList<Message> messages = new ArrayList<Message>();
     FragmentManager manager = activity.getSupportFragmentManager();
     adapter = new ConnectAdapter(this, manager, getView().getContext(), messages);
+    ArrayList<Friend> friends = new ArrayList<Friend>();
     lvItems = (ListView) getView().findViewById(R.id.lvFragmentItemsList);
     lvItems.setAdapter(adapter);
     lvItems.setClickable(false);
-    etMessage = (EditText) getView().findViewById(R.id.etConnectChatField);
+    etMessage = (PopupEditText) getView().findViewById(R.id.etConnectChatField);
     bSend = (Button) getView().findViewById(R.id.bConnectSend);
     registerListeners();
+    getFriends();
+  }
+  
+  private void getFriends() {
+    Log.i("*******CONNECT INIT", "GET FRIENDS");
+    String url = getResources().getString(R.string.api_url)
+            + getResources().getString(R.string.users_json);
+    service.getFriends(url);
   }
 
   private void registerListeners() {
@@ -125,6 +137,7 @@ public class ConnectFragment extends BaseListFragment {
     super.onResume();
     Log.i(this.toString(), "RESUME");
     bus.register(this);
+    bus.register(etMessage);
     getMessages();
   }
 
@@ -132,6 +145,7 @@ public class ConnectFragment extends BaseListFragment {
   public void onPause() {
     super.onPause();
     Log.i(this.toString(), "PAUSE");
+    bus.unregister(etMessage);
     bus.unregister(this);
   }
 

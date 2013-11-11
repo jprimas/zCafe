@@ -46,10 +46,11 @@ public class CafeActivity extends FragmentActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_cafe);
     CafeApplication.getObjectGraph().inject(this);
-    setupTabs();
     if (!CafeApplication.getObjectGraph().get(CafeApplication.class).isRegisteredUser()) {
       Intent intent = new Intent(this, RegistrationActivity.class);
       startActivity(intent);
+    } else {
+      setupTabs();
     }
   }
 

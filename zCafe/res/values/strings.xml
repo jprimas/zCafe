@@ -38,6 +38,9 @@
 	<string name="zynga_url">http://www.zynga.com</string>
 	<!-- <string name="api_url">https://yipbb.corp.zynga.com/zcafe-api</string> -->
 	<string name="api_url">http://54.201.40.146/zcafe-api</string>
+	<string name="users">/users</string>
+	<string name="json">.json</string>
+	<string name="users_json">/users/.json</string>
 	<string name="menu_get_url">/menu</string>
 	<string name="test_connects_get_url">/connects/test</string>
 	<string name="connects_get_url">/connects</string>

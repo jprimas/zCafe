@@ -14,7 +14,7 @@ import com.zynga.zcafe.fragments.RegistrationFragment;
 import com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus;
 
 /**
- * 111111
+ * 
  * 
  * @author tlee
  * 

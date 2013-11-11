@@ -1,6 +1,6 @@
 package com.zynga.zcafe.views;
 
-import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,21 +8,22 @@ import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AutoCompleteTextView.Validator;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
+import com.squareup.otto.Subscribe;
 import com.zynga.zcafe.R;
 import com.zynga.zcafe.adapters.PopupEditTextAdapter;
+import com.zynga.zcafe.events.GetFriendsEvent;
 import com.zynga.zcafe.models.Friend;
 
 public class PopupEditText extends EditText {
@@ -33,11 +34,9 @@ public class PopupEditText extends EditText {
   ListView lvItems;
   LayoutInflater inflater;
   Context context;
+  ArrayList<Friend> friends = new ArrayList<Friend>();
 
 	private boolean blockCompletion = false;
-	private int lastAtSignIndex = 0;
-
-	
 	public PopupEditText(Context context, AttributeSet attrs) {
 	  super(context, attrs);
 	  this.context = getContext();
@@ -45,10 +44,11 @@ public class PopupEditText extends EditText {
 	}
 	
 	private void init() {
+	  Log.i("*****POPUPEDITTEXT", "INITIALIZE");
     inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     lvItems = (ListView)inflater.inflate(R.layout.popup_list, null);
     popup = new PopupWindow(lvItems, LayoutParams.MATCH_PARENT, 200, true);
-    adapter = new PopupEditTextAdapter(getContext(), Friend.buildFriendsMock());
+    adapter = new PopupEditTextAdapter(getContext(), friends);
     lvItems.setAdapter(adapter);
     setRawInputType(EditorInfo.TYPE_TEXT_FLAG_AUTO_COMPLETE);
     setFocusable(true);
@@ -112,11 +112,9 @@ public class PopupEditText extends EditText {
       if (!isPopupShowing()) {
         if (s.length() == 1 && s.toString().equals("@")) {
           showPopup();
-          lastAtSignIndex = 0;
         } else if (s.length() > 1) {
           if (String.valueOf(s.subSequence(position - 1, s.length())).equals(" @")) {
             showPopup();
-            lastAtSignIndex = position;
           }
         }
       }
@@ -135,8 +133,8 @@ public class PopupEditText extends EditText {
 
       @Override
       public void run() {
-        popup.showAtLocation(PopupEditText.this, Gravity.CENTER_HORIZONTAL, 0,
-                0 - PopupEditText.this.getHeight());
+        popup.showAtLocation(PopupEditText.this, Gravity.BOTTOM, 0,
+                PopupEditText.this.getHeight() + 50);
       }
 	    
 	  });
@@ -144,7 +142,11 @@ public class PopupEditText extends EditText {
     lvItems.requestFocusFromTouch();
 	}
 	
-
-	
-
+  
+  @Subscribe
+  public void initPopupEditAdapterWithFriends(GetFriendsEvent event) {
+     Log.i("*******POPUPEDITTEXT", "POPULATING POPUP ADAPTER");
+    adapter.clear();
+    adapter.addAll(event.getFriendArray());
+  }
 }

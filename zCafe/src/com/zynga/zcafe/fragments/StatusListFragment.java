@@ -49,7 +49,7 @@ public class StatusListFragment extends BaseListFragment {
   protected void init() {
     ArrayList<StatusItem> items = new ArrayList<StatusItem>();
     FragmentManager manager = this.activity.getSupportFragmentManager();
-    adapter = new StatusAdapter(this, manager, app.getApplicationContext(), items);
+    adapter = new StatusAdapter(this, manager, getActivity(), items);
     lvItems = (ListView) getView().findViewById(R.id.lvFragmentItemsList);
     lvItems.setAdapter(adapter);
     lvItems.setClickable(false);
@@ -103,7 +103,9 @@ public class StatusListFragment extends BaseListFragment {
 
   @Subscribe
   public void onOrderStatusEvent(OrderStatusEvent event) {
-    if (event.getStatus() == 200) {
+    if (event.getStatus() == 0) {
+      Log.i("STATUS EVENT", "SUCCESS");
+      Log.i("STATUS EVENT", event.getResponse());
       adapter.clear();
       JSONArray jsonArray = new JSONArray();
       try {
@@ -112,12 +114,11 @@ public class StatusListFragment extends BaseListFragment {
         e.printStackTrace();
       }
       ArrayList<StatusItem> items = StatusItem.fromJson(jsonArray);
+      Log.i("STATUS SIZE", String.valueOf(items.size()));
       adapter.push(items);
       adapter.notifyDataSetChanged();
-      if(items != null && items.size() > 0){
-	      progressBar.setVisibility(ProgressBar.INVISIBLE);
-	      tvLoading.setVisibility(ProgressBar.INVISIBLE);
-      }
+      progressBar.setVisibility(ProgressBar.INVISIBLE);
+      tvLoading.setVisibility(ProgressBar.INVISIBLE);
     }
   }
 }

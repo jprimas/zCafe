@@ -47,6 +47,7 @@ public class OrderFormFragment extends Fragment {
 
   @Inject
   CafeService service;
+  
   FragmentActivity activity;
   MenuItem menuItem;
   TextView tvOrderFormTitle;

@@ -49,8 +49,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
             
-            android:src="@drawable/bean"
-            android:background="@drawable/states_complete_button" />
+            android:src="@drawable/states_complete_button"
+            android:background="#00000000" />
 
     </RelativeLayout>
     

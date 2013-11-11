@@ -13,6 +13,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,13 +24,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.otto.Subscribe;
 import com.zynga.zcafe.CafeApplication;
 import com.zynga.zcafe.R;
 import com.zynga.zcafe.events.CancelOrderEvent;
+import com.zynga.zcafe.events.ClickCancelOrderEvent;
 import com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus;
 import com.zynga.zcafe.models.Profile;
 import com.zynga.zcafe.models.StatusItem;
@@ -46,9 +47,9 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
   Context context;
   FragmentManager fragmentManager;
   Fragment fragment;
-
-  static int currentCancelPosition;
-  static View currentView;
+  SparseArray<View> clickedViewCache;
+  int clickedCancelPosition;
+  
 
   public StatusAdapter(Fragment fragment, FragmentManager fragmentManager, Context context,
       ArrayList<StatusItem> items) {
@@ -61,7 +62,8 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
 
   public void push(ArrayList<StatusItem> items) {
     clear();
-    for (StatusItem item : items) {
+    for (int i = items.size() - 1; i >= 0; i--) {
+      StatusItem item = items.get(i);
       if (!item.getStatus().equals("Cancelled")) {
         add(item);
       }
@@ -89,6 +91,10 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
     } else {
       holder = (ViewHolder) view.getTag();
     }
+    
+    SparseArray<View> viewCache = new SparseArray<View>();
+    viewCache.put(position, view);
+    holder.bCancelOrder.setTag(viewCache);
 
     final StatusItem item = getItem(position);
     ImageLoader.getInstance().displayImage(item.getThumbImageUrl(), holder.ivOrderStatusMenuPhoto);
@@ -98,19 +104,22 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
     holder.tvOrderStatusUserName.setText(item.getUserName());
     holder.tvOrderStatusQueueCount.setText(item.getQueueCount());
     holder.tvOrderStatusOrderDate.setText(item.getOrderDate());
-    Log.i("ITEM_STATUS", item.getStatus());
     if (item.getStatus().equals("Pending")) {
       holder.bCancelOrder.setVisibility(View.VISIBLE);
       holder.bCancelOrder.setOnClickListener(new OnClickListener() {
 
         @Override
         public void onClick(View view) {
-          Log.i("CANCEL1", "ORDER");
+          SparseArray<View> cache = (SparseArray<View>)view.getTag();
+          clickedViewCache = cache;
+          int position = cache.keyAt(0);
+          clickedCancelPosition = position;
+          StatusItem cachedItem = getItem(position);
           String url = view.getResources().getString(R.string.api_url)
               + view.getResources().getString(R.string.cancel_order_url);
-          cancelOrder(url, item);
-          currentCancelPosition = position;
-          currentView = convertView;
+          cancelOrder(url, cachedItem);
+          ClickCancelOrderEvent event = new ClickCancelOrderEvent(cache);
+          bus.post(event);
         }
 
       });
@@ -129,6 +138,7 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
       json.put("userName", item.getUserName());
       json.put("udid", profile.getUdId());
       json.put("orderId", item.getOrderId());
+      Log.i("CANCEL ORDER ID", item.getOrderId());
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -156,15 +166,11 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
 
   @Subscribe
   public void onCancelOrderEvent(CancelOrderEvent event) {
-    Log.i("ONCANCELEVENT", "TRUE");
-    if (event.getStatus() == 200) {
-      Log.i("ONCANCELEVENT-200", "TRUE");
-
+    if (event.getStatus() == 0) {
+      Log.i("ONCANCELEVENT-0", "TRUE");
       runItemRemovalAnimation();
-
-      CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
-      String msg = app.getContext().getResources().getString(R.string.order_cancel_success);
-      Toast.makeText(app.getContext(), msg, Toast.LENGTH_LONG).show();
+    } else {
+      Log.i("CANCELLATION", "FAIL");
     }
   }
 
@@ -175,7 +181,7 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
 
       @Override
       public void onAnimationEnd(Animation animation) {
-        StatusItem item = getItem(currentCancelPosition);
+        StatusItem item = getItem(clickedCancelPosition);
         remove(item);
         notifyDataSetChanged();
       }
@@ -190,8 +196,8 @@ public class StatusAdapter extends ArrayAdapter<StatusItem> {
 
       }
     });
-
-    currentView.startAnimation(animation);
+    View view = clickedViewCache.get(clickedCancelPosition);
+    view.startAnimation(animation);
   }
 
 }

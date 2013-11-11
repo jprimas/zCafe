@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.zynga.zcafe.CafeApplication;
 import com.zynga.zcafe.R;
 import com.zynga.zcafe.events.CancelOrderEvent;
 import com.zynga.zcafe.events.FavoriteEvent;
+import com.zynga.zcafe.events.GetFriendsEvent;
 import com.zynga.zcafe.events.GetMessagesEvent;
 import com.zynga.zcafe.events.MenuEvent;
 import com.zynga.zcafe.events.OrderStatusEvent;
@@ -31,12 +31,31 @@ public class CafeService {
   MainThreadBus bus;
 
   @Inject
-  CafeApplication app;
+  CafeApplication app = CafeApplication.getInstance();
 
   @Inject
   public CafeService(MainThreadBus bus) {
     this.bus = bus;
     this.bus.register(this);
+  }
+  
+  public void getFriends(String url) {
+    JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
+      @Override
+      public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+        Log.i("GET FRIENDS", new String(responseBody));
+        GetFriendsEvent event = new GetFriendsEvent(0, new String(responseBody));
+        bus.post(event);
+      }
+
+      @Override
+      public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+        //Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+        Log.d("GET FRIENDS ERROR", error.getMessage());
+      }
+    };
+    Log.i("GET FRIENDS URL", url);
+    client.get(url, handler);
   }
 
   public void getMessages(String url) {
@@ -50,7 +69,6 @@ public class CafeService {
 
       @Override
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
         Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
         Log.d("GET MESSAGE ERROR", error.getMessage());
       }
@@ -76,7 +94,6 @@ public class CafeService {
         PostMessageEvent event = new PostMessageEvent(1, error.getMessage());
         Log.i("CONNECT-POST-ERROR", error.getMessage());
         bus.post(event);
-        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
         Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
       }
 
@@ -94,7 +111,6 @@ public class CafeService {
         Log.i("SUCCESS", response);
         RegistrationEvent event = new RegistrationEvent(response, 0);
         bus.post(event);
-        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
         String msg = app.getContext().getResources().getString(R.string.registration_success);
         Toast.makeText(app.getContext(), msg, Toast.LENGTH_LONG).show();
       }
@@ -103,7 +119,6 @@ public class CafeService {
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
         RegistrationEvent event = new RegistrationEvent(error.getMessage(), 1);
         bus.post(event);
-        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
         String msg = app.getContext().getResources().getString(R.string.registration_failure);
         Toast.makeText(app.getContext(), msg, Toast.LENGTH_LONG).show();
       }
@@ -124,9 +139,6 @@ public class CafeService {
 
       @Override
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        // Do not create string onFailure because no responseBody.
-        // String response = new String(responseBody);
-        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
         Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
         Log.d("GET MENU1 ERROR", error.getMessage());
       }
@@ -140,16 +152,14 @@ public class CafeService {
       @Override
       public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
         String response = new String(responseBody);
-        OrderStatusEvent event = new OrderStatusEvent(statusCode, response);
+        OrderStatusEvent event = new OrderStatusEvent(0, response);
         bus.post(event);
       }
 
       @Override
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        String response = new String(responseBody);
-        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
-        Toast.makeText(app.getContext(), response, Toast.LENGTH_LONG).show();
-        Log.d("ERROR1", response);
+        Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+        Log.d("ERROR1", error.getMessage());
       }
     };
     Log.i("STATUS-URL", url);
@@ -168,8 +178,7 @@ public class CafeService {
       @Override
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
         String response = new String(responseBody);
-        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
-        Toast.makeText(app.getContext(), response, Toast.LENGTH_LONG).show();
+        Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
         Log.d("ERROR111", response);
       }
     };
@@ -181,24 +190,20 @@ public class CafeService {
     JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
       @Override
       public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-    	Log.i("POST-ORDER-SUCCESS", new String(responseBody));
-        //bus.post(items);
-        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
-        String msg = app.getContext().getResources().getString(R.string.order_submit_success);
-        Toast.makeText(app.getContext(), msg, Toast.LENGTH_LONG).show();
+    	  Log.i("POST-ORDER-SUCCESS", new String(responseBody));
+    	  if (app != null) {
+          String msg = app.getResources().getString(R.string.order_submit_success);
+          Toast.makeText(app.getContext(), msg, Toast.LENGTH_LONG).show();
+    	  } else {
+    	    Log.i("APP NULL", "NULL");
+    	  }
+
       }
 
       @Override
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        // TODO: Needs to work on this as successfully post also triggers this
-        // onFailure callback.
-        // CafeApplication application =
-        // CafeApplication.getObjectGraph().get(CafeApplication.class);
-        // String msg =
-        // application.getResources().getString(R.string.order_submit_failure);
-        // String msg = e.getMessage();
-        // Toast.makeText(application.getContext(), msg,
-        // Toast.LENGTH_LONG).show();
+        Log.i("POST-ORDER-FAILURE", error.getMessage());
+        Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
       }
     };
     client.post(context, url, entity, "application/json", handler);
@@ -208,83 +213,17 @@ public class CafeService {
     JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
       @Override
       public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        // tlee: this doesn't get called at all on a successful post.
-        // bus.post(items);
-        CancelOrderEvent event = new CancelOrderEvent(statusCode, new String(responseBody));
+        CancelOrderEvent event = new CancelOrderEvent(0, new String(responseBody));
         bus.post(event);
       }
 
       @Override
       public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        //Log.i("FAIL TO CANCEL", "ORDER");
+        Log.i("POST-CANCEL-FAILURE", error.getMessage());
+        Toast.makeText(app.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
       }
     };
     client.put(context, url, entity, "application/json", handler);
-  }
-
-  public void get(String url) {
-    JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
-      @Override
-      public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        Log.d("SUCCESS GET-MENU", "ITEMS");
-        // bus.post(items);
-      }
-
-      @Override
-      public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        String response = new String(responseBody);
-        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
-        Toast.makeText(app.getContext(), response, Toast.LENGTH_LONG).show();
-        Log.d("ERROR111", error.getMessage());
-      }
-    };
-
-    client.get(url, handler);
-  }
-
-  public void post(Context context, String url, HttpEntity entity) {
-    JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
-      @Override
-      public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        // tlee: this doesn't get called at all on a successful post.
-        // bus.post(items);
-        CafeApplication app = CafeApplication.getObjectGraph().get(CafeApplication.class);
-        String msg = app.getContext().getResources().getString(R.string.order_submit_success);
-        Toast.makeText(app.getContext(), msg, Toast.LENGTH_LONG).show();
-      }
-
-      @Override
-      public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        // TODO: Needs to work on this as successfully post also triggers this
-        // onFailure callback.
-        // CafeApplication application =
-        // CafeApplication.getObjectGraph().get(CafeApplication.class);
-        // String msg =
-        // application.getResources().getString(R.string.order_submit_failure);
-        // String msg = e.getMessage();
-        // Toast.makeText(application.getContext(), msg,
-        // Toast.LENGTH_LONG).show();
-      }
-    };
-
-    client.post(context, url, entity, "application/json", handler);
-  }
-
-  public void put(String url, RequestParams params) {
-    JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
-      @Override
-      public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        Log.d("SUCCESS MENU", "ITEMS");
-        // bus.post(items);
-      }
-
-      @Override
-      public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        Log.d("ERROR", error.toString());
-      }
-    };
-
-    client.put(url, params, handler);
   }
   
   public static AsyncHttpClient getClient() {

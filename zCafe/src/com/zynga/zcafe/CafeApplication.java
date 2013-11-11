@@ -76,8 +76,10 @@ public class CafeApplication extends Application {
       String uaid = configs.getString("uaid", "");
       String userId = configs.getString("userId", "");
       String name = configs.getString("name", "");
+      String device = configs.getString("device", "android");
 
-      profile = new Profile(userId, name, udid, uaid, "android");
+      profile = new Profile.Builder().setName(name).setUdid(udid).setUaId(uaid)
+          .setId(userId).setDevice(device).build();
     }
     return profile;
   }

@@ -31,6 +31,7 @@ import com.urbanairship.push.PushManager;
 import com.zynga.zcafe.CafeApplication;
 import com.zynga.zcafe.IntentReceiver;
 import com.zynga.zcafe.R;
+import com.zynga.zcafe.activities.CafeActivity;
 import com.zynga.zcafe.events.RegistrationEvent;
 import com.zynga.zcafe.events.UaIdEvent;
 import com.zynga.zcafe.inject.modules.CafeModule.MainThreadBus;
@@ -129,9 +130,15 @@ public class RegistrationFragment extends Fragment {
   }
 
   private void registerUser() {
-    Profile profile = app.getProfile();
+    Profile profile = createAndStoreProfile();
+    Log.i("PROFILE NAME", profile.getName());
+    Log.i("PROFILE UADI", profile.getUaId());
+    Log.i("PROFILE UDID", profile.getUdId());
+    Log.i("PROFILE DEVICE", profile.getDevice());
+    Log.i("PROFILE JSON", profile.getProfileJson().toString());
     StringEntity entity = null;
     try {
+      Log.i("REGISTERATION", profile.getProfileJson().toString());
       entity = new StringEntity(profile.getProfileJson().toString());
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
@@ -197,8 +204,10 @@ public class RegistrationFragment extends Fragment {
 
     // Creates new profile
     String device = getView().getResources().getString(R.string.registration_device);
+    editor.putString("device", device);
     editor.commit();
-    Profile newProfile = new Profile("0", name, udid, uaid, device);
+    Profile newProfile = new Profile.Builder().setName(name).setUdid(udid).setUaId(uaid)
+            .setDevice(device).build();
     return newProfile;
   }
 
@@ -226,7 +235,8 @@ public class RegistrationFragment extends Fragment {
     editor.commit();
 
     if (event.getStatus() == 0) {
-      activity.finish();
+      Intent intent = new Intent(getActivity(), CafeActivity.class);
+      startActivity(intent);
     }
   }
 

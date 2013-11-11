@@ -55,10 +55,5 @@ public abstract class BaseListFragment extends Fragment {
 
   protected abstract void init();
 
-  protected void get(String url) {
-    CafeService service = CafeApplication.getObjectGraph().get(CafeService.class);
-    service.get(url);
-  }
-
 
 }

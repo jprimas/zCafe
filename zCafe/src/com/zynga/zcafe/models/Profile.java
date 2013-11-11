@@ -18,7 +18,7 @@ public class Profile {
   private Profile() {
   }
 
-  public Profile(String userId, String name, String udid, String uaid, String device) {
+  private Profile(String userId, String name, String udid, String uaid, String device) {
     this.userId = userId;
     this.name = name;
     this.udid = udid;
@@ -130,6 +130,8 @@ public class Profile {
     this.uaid = b.uaId;
     this.device = b.device;
     this.photoUrl = b.photoUrl;
+    setProfile();
   }
+  
 
 }
