@@ -65,7 +65,7 @@ public class Friend {
     }
   }
   
-  private Friend(Builder b) {
+  public Friend(Builder b) {
     this.name = b.name;
     this.account = b.account;
     this.photoUrl = b.photoUrl;

@@ -26,6 +26,7 @@
 	<string name="registration_success">You have been registered.</string>
 	<string name="registration_failure">Your registration failed.</string>
 	<string name="registration_button">Register</string>
+	<string name="submit_button">Submit</string>
 	<!-- Tags -->
 	<string name="menu_fragment">MenuListFragment</string>
 	<string name="connect_fragment">ConnectFragment</string>
@@ -49,7 +50,8 @@
 	<string name="order_post_url">/orders.json</string>
 	<string name="order_status_get_url">/orders</string>
 	<string name="cancel_order_url">/cancelOrder.json</string>
-	<!-- Url related strings -->
+	<string name="upload_profile_image">/profileImage/</string>
+    <!-- Url related strings -->
 	<string name="referer">Referer</string>
 	<string name="title_activity_registration">Registration</string>
 	<!-- Warnings -->
@@ -58,5 +60,5 @@
 	<string name="warning_registration_empty_uaid">Please retry registration in a few seconds when you\'re ID is ready.</string>
 	<!-- Configs -->
 	<string name="registration_device">android</string>
-
+	<string name="title_activity_profile">zCafe User Profile</string>
 </resources>

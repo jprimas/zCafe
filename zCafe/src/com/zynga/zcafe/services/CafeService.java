@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.zynga.zcafe.CafeApplication;
 import com.zynga.zcafe.R;
 import com.zynga.zcafe.events.CancelOrderEvent;
@@ -230,5 +231,25 @@ public class CafeService {
     return client;
   }
 
+  
+  public void uploadProfilePic(RequestParams params, String url, HttpEntity entity) {
+      JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+          String response = new String(responseBody);
+          Log.i("SUCCESS", response);
+          
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+          Log.i("FAILURE", ""+statusCode);
+        }
+
+      };
+
+      client.post(url, params, handler);
+  }
 
 }

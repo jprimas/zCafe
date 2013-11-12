@@ -64,7 +64,7 @@ public class OrdersFragment extends Fragment {
 	
 	public void updateOrders(){
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.get("https://yipbb.corp.zynga.com/zcafe-api/admin/orders/Pending", new
+		client.get("http://54.201.40.146/zcafe-api/admin/orders/Pending", new
 		    AsyncHttpResponseHandler() {
 		        @Override
 		        public void onSuccess(String jsonString) {

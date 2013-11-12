@@ -119,7 +119,7 @@ public class AdminActivity extends FragmentActivity implements TabListener {
 			}
 	    	AsyncHttpClient client = new AsyncHttpClient();
 			client.post(this,
-				"https://yipbb.corp.zynga.com/zcafe-api/register",
+				"http://54.201.40.146/zcafe-api/register",
 				entity,
 				"application/json",
 			    new AsyncHttpResponseHandler() {
