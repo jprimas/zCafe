@@ -180,6 +180,10 @@
 			android:name="com.zynga.zcafe.activities.RegistrationActivity"
 			android:label="@string/title_activity_registration" >
 		</activity>
+		<activity
+            android:name="com.zynga.zcafe.activities.ProfileActivity"
+            android:label="@string/title_activity_profile" >
+        </activity>
 	</application>
 
 </manifest>
