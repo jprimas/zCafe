@@ -52,7 +52,6 @@
 	<string name="cancel_order_url">/cancelOrder.json</string>
 	<string name="upload_profile_image">/profileImage/</string>
     <!-- Url related strings -->
-	<!-- Url related strings -->
 	<string name="referer">Referer</string>
 	<string name="title_activity_registration">Registration</string>
 	<!-- Warnings -->
@@ -62,5 +61,4 @@
 	<!-- Configs -->
 	<string name="registration_device">android</string>
 	<string name="title_activity_profile">zCafe User Profile</string>
-
 </resources>

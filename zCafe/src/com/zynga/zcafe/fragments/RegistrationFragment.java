@@ -1,6 +1,11 @@
 package com.zynga.zcafe.fragments;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -12,7 +17,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.provider.Settings.Secure;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -23,8 +33,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.loopj.android.http.RequestParams;
 import com.squareup.otto.Subscribe;
 import com.urbanairship.UAirship;
 import com.urbanairship.push.PushManager;
@@ -52,6 +64,13 @@ public class RegistrationFragment extends Fragment {
 
   EditText etFullName;
   Button bRegister;
+
+  private ImageView ivCamera;
+  public static final int MEDIA_TYPE_IMAGE = 1;
+  private Uri fileUri;
+  private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+  private ImageView ivProfile;
+  private static final String IMAGE_DIRECTORY_NAME = "zCAFE";
 
   public RegistrationFragment() {
     super();
@@ -98,8 +117,7 @@ public class RegistrationFragment extends Fragment {
   private BroadcastReceiver apidUpdateReceiver = new BroadcastReceiver() {
     @Override
     public void onReceive(Context context, Intent intent) {
-      //registerUser();
-      createAndStoreProfile();
+      registerUser();
     }
   };
 
@@ -113,6 +131,9 @@ public class RegistrationFragment extends Fragment {
   private void init() {
     etFullName = (EditText) getView().findViewById(R.id.etFullName);
     bRegister = (Button) getView().findViewById(R.id.bRegister);
+
+    ivCamera = (ImageView)getView().findViewById(R.id.ivCamera);
+    ivProfile = (ImageView)getView().findViewById(R.id.ivProfile);
   }
 
   private void registerListeners() {
@@ -121,21 +142,27 @@ public class RegistrationFragment extends Fragment {
       public void onClick(View v) {
         Profile profile = createAndStoreProfile();
         if (profile != null) {
-          registerUser(profile);
+          if (!((profile.getUaId() == null || profile.getUaId().isEmpty()) || (profile.getUdId() == null || profile.getUdId().isEmpty()) || profile.getName().isEmpty())) {
+            registerUser();
+          }
         }
       }
     });
+
+    ivCamera.setOnClickListener(new OnClickListener() {
+    
+    @Override
+    public void onClick(View v) {
+      captureImage();
+    }
+  });
   }
 
-  private void registerUser(Profile profile) {
-    Log.i("PROFILE NAME", profile.getName());
-    Log.i("PROFILE UADI", profile.getUaId());
-    Log.i("PROFILE UDID", profile.getUdId());
-    Log.i("PROFILE DEVICE", profile.getDevice());
-    Log.i("PROFILE JSON", profile.getProfileJson().toString());
+  private void registerUser() {
+	  System.out.println("registering");
+    Profile profile = app.getProfile();
     StringEntity entity = null;
     try {
-      Log.i("REGISTERATION", profile.getProfileJson().toString());
       entity = new StringEntity(profile.getProfileJson().toString());
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
@@ -169,14 +196,7 @@ public class RegistrationFragment extends Fragment {
     editor.putString("udid", udid);
 
     String uaid = PushManager.shared().getAPID();
-    if (uaid == null) {
-      Log.i("CHECK UAID", "NULL");
-      String msg = getResources().getString(R.string.no_network);
-      Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
-      uaid = "xxx";
-    }
     editor.putString("uaid", uaid);
-
     // Log.i("UAID", uaid);
 
     // uaid
@@ -208,10 +228,8 @@ public class RegistrationFragment extends Fragment {
 
     // Creates new profile
     String device = getView().getResources().getString(R.string.registration_device);
-    editor.putString("device", device);
     editor.commit();
-    Profile newProfile = new Profile.Builder().setName(name).setUdid(udid).setUaId(uaid)
-            .setDevice(device).build();
+    Profile newProfile = new Profile("0", name, udid, uaid, device);
     return newProfile;
   }
 
@@ -226,22 +244,179 @@ public class RegistrationFragment extends Fragment {
 
   @Subscribe
   public void onRegistrationEvent(RegistrationEvent event) {
-    Log.i("SUBSCRIBE", "EVENT");
-    SharedPreferences configs = app.getConfigs();
-    SharedPreferences.Editor editor = configs.edit();
-    if (event.getStatus() == 0) {
-      editor.putBoolean("isRegistered", true);
-      Log.i("SUBSCRIBE SUCCESS", event.getResponse());
-    } else {
-      Log.i("FAIL", event.getResponse());
-      editor.putBoolean("isRegistered", true);
-    }
-    editor.commit();
+	  Log.i("SUBSCRIBE", "EVENT");
+	  SharedPreferences configs = app.getConfigs();
+	  SharedPreferences.Editor editor = configs.edit();
+	  if (event.getStatus() == 0) {
+		  editor.putBoolean("isRegistered", true);
+		  Log.i("SUBSCRIBE SUCCESS", event.getResponse());
+	  } else {
+		  Log.i("FAIL", event.getResponse());
+		  editor.putBoolean("isRegistered", true);
+	  }
+	  editor.commit();
 
-    if (event.getStatus() == 0) {
-      Intent intent = new Intent(getActivity(), CafeActivity.class);
-      startActivity(intent);
-    }
+	  if (event.getStatus() == 0) {
+		  Intent intent = new Intent(getActivity(), CafeActivity.class);
+		  startActivity(intent);
+		  }
+	  }
+
+  /*
+   * Capturing Camera Image will lauch camera app requrest image capture
+   */
+  private void captureImage() {
+      Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+   
+      fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+   
+      intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+   
+      // start the image capture Intent
+      startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+  }
+  
+  /**
+   * Receiving activity result method will be called after closing the camera
+   * */
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    Log.d("DEBUG", "On activity result fragment");
+    // if the result is capturing Image
+      if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+          if (resultCode == getActivity().RESULT_OK) {
+              // successfully captured the image
+              // display it in image view
+              previewCapturedImage();
+          } else if (resultCode == getActivity().RESULT_CANCELED) {
+              // user cancelled Image capture
+              Toast.makeText(getActivity().getApplicationContext(),
+                      "User cancelled image capture", Toast.LENGTH_SHORT)
+                      .show();
+          } else {
+              // failed to capture image
+              Toast.makeText(getActivity().getApplicationContext(),
+                      "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                      .show();
+          }
+      }
+  }
+  
+  /*
+   * Display image from a path to ImageView
+   */
+  private void previewCapturedImage() {
+      try {
+          
+          ivProfile.setVisibility(View.VISIBLE);
+
+          // bimatp factory
+          BitmapFactory.Options options = new BitmapFactory.Options();
+
+          // downsizing image as it throws OutOfMemory Exception for larger
+          // images
+          options.inSampleSize = 8;
+
+          final Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(),
+                  options);
+
+          ivProfile.setImageBitmap(bitmap);
+          
+          File myFile = new File(fileUri.getPath());
+          RequestParams params = new RequestParams();
+          try {
+              params.put("file", myFile);
+          } catch(FileNotFoundException e) {
+            
+          }
+          
+          SharedPreferences configs = app.getConfigs();
+          SharedPreferences.Editor editor = configs.edit();
+          String udid = configs.getString("udid", "");
+          if (udid.isEmpty()) {
+              udid = Secure.getString(getView().getContext().getContentResolver(), Secure.ANDROID_ID);
+          }
+          String url = getView().getResources().getString(R.string.api_url)
+                  + getView().getResources().getString(R.string.upload_profile_image)+"/"+udid+".json";
+          
+          Log.i("upload image", url);
+          service.uploadProfilePic(params, url, null);
+       
+          
+          editor.putString("profilePath", fileUri.getPath());
+          
+          editor.commit();
+          
+      } catch (NullPointerException e) {
+          e.printStackTrace();
+      }
+  }
+  
+  
+  /**
+   * Here we store the file url as it will be null after returning from camera
+   * app
+   */
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+      super.onSaveInstanceState(outState);
+   
+      // save file url in bundle as it will be null on scren orientation
+      // changes
+      outState.putParcelable("file_uri", fileUri);
+  }
+   
+  /*
+   * Here we restore the fileUri again
+   */
+//  @Override
+//  public void onRestoreInstanceState(Bundle savedInstanceState) {
+//      super.onRestoreInstanceState(savedInstanceState);
+//   
+//      // get the file url
+//      fileUri = savedInstanceState.getParcelable("file_uri");
+//  }
+  
+  /**
+   * Creating file uri to store image/video
+   */
+  public Uri getOutputMediaFileUri(int type) {
+      return Uri.fromFile(getOutputMediaFile(type));
+  }
+   
+  /*
+   * returning image / video
+   */
+  private static File getOutputMediaFile(int type) {
+   
+      // External sdcard location
+      File mediaStorageDir = new File(
+              Environment
+                      .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+              IMAGE_DIRECTORY_NAME);
+   
+      // Create the storage directory if it does not exist
+      if (!mediaStorageDir.exists()) {
+          if (!mediaStorageDir.mkdirs()) {
+              Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
+                      + IMAGE_DIRECTORY_NAME + " directory");
+              return null;
+          }
+      }
+   
+      // Create a media file name
+      String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+              Locale.getDefault()).format(new Date());
+      File mediaFile;
+      if (type == MEDIA_TYPE_IMAGE) {
+          mediaFile = new File(mediaStorageDir.getPath() + File.separator
+                  + "IMG_" + timeStamp + ".jpg");
+      } else {
+          return null;
+      }
+   
+      return mediaFile;
   }
 
 }

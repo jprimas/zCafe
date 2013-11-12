@@ -5,6 +5,7 @@
 		android:icon="@drawable/ic_action_setting"
 		android:orderInCategory="100"
 		android:showAsAction="always"
+		android:onClick="onProfileView"
 		android:title="@string/action_settings"/>
 
 </menu>
