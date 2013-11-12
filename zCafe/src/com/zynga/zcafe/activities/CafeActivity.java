@@ -96,7 +96,7 @@ public class CafeActivity extends FragmentActivity {
     actionBar.addTab(tabStatus);
     actionBar.addTab(tabFav);
     actionBar.addTab(tabConnect);
-    actionBar.selectTab(tabConnect);
+    actionBar.selectTab(tabMenu);
     bus.post(tabMenu);
   }
 

@@ -58,7 +58,7 @@ public class ReportsFragment extends Fragment {
 	
 	private void getData(){
 		AsyncHttpClient client = new AsyncHttpClient();
-		client.get("https://yipbb.corp.zynga.com/zcafe-api/admin/dailyReport", new
+		client.get("http://54.201.40.146/zcafe-api/admin/dailyReport", new
 		    AsyncHttpResponseHandler() {
 		        @Override
 		        public void onSuccess(String jsonString) {

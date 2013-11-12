@@ -78,7 +78,7 @@ public class OrdersAdapter extends ArrayAdapter<ZyngaCoffee>{
 					}
 					AsyncHttpClient client = new AsyncHttpClient();
 					client.put(context,
-							"https://yipbb.corp.zynga.com/zcafe-api/admin/completeOrder.json",
+							"http://54.201.40.146/zcafe-api/admin/completeOrder.json",
 							entity,
 							"application/json",
 							new AsyncHttpResponseHandler() {
